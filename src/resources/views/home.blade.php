@@ -42,20 +42,20 @@
             ></div>
           </div>
         </header> -->
-        <div class="flex flex-1 justify-between mt-20 py-5">
+        <div class="flex flex-1 justify-between py-5">
             <div class="layout-content-container flex flex-col w-80 h-fit mx-10 rounded-2xl border-2 fixed">
                 <div class="flex p-4 @container">
                     <div class="flex w-full flex-col gap-4 items-center">
                         <div class="flex gap-4 flex-col items-center">
-                        <div
-                            class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCawObi8PcqLetxAHy7IO2LsQXlpZK45ijAFzpZOLZ1TdOnbGtfEtp3ekTMpc-uq2fsRYwpbQsDjwLmcmAA96iFGYAZztTyvpzAUyb-834qLjfQwHR8hBW0H7Zq1lTv6m6CCWrszs22zLq7qFmdVtG56JvrxkB-puAP2mYvwMHjSSFuq0ygDCBzjKnYS_fFGwZJz0DD7wEL8aELqjc4K1565YwgcE_hM7x7sYgHu7i8C66_mqDb-Geel6wSVJn8dGf1Snq1opqLi1A");'
-                        ></div>
-                        <div class="flex flex-col items-center justify-center justify-center">
-                            <p class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Emily Carter</p>
-                            <p class="text-[#49499c] text-base font-normal leading-normal text-center">@emily_carter</p>
-                            <p class="text-[#49499c] text-base font-normal leading-normal text-center">Morning exercise enthusiast</p>
-                        </div>
+                            <div
+                                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCawObi8PcqLetxAHy7IO2LsQXlpZK45ijAFzpZOLZ1TdOnbGtfEtp3ekTMpc-uq2fsRYwpbQsDjwLmcmAA96iFGYAZztTyvpzAUyb-834qLjfQwHR8hBW0H7Zq1lTv6m6CCWrszs22zLq7qFmdVtG56JvrxkB-puAP2mYvwMHjSSFuq0ygDCBzjKnYS_fFGwZJz0DD7wEL8aELqjc4K1565YwgcE_hM7x7sYgHu7i8C66_mqDb-Geel6wSVJn8dGf1Snq1opqLi1A");'
+                            ></div>
+                            <div class="flex flex-col items-center justify-center justify-center">
+                                <p class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Emily Carter</p>
+                                <p class="text-[#49499c] text-base font-normal leading-normal text-center">@emily_carter</p>
+                                <p class="text-[#49499c] text-base font-normal leading-normal text-center">Morning exercise enthusiast</p>
+                            </div>
                         </div>
                     </div>
                 </div>
