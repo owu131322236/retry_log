@@ -24,5 +24,7 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');   
 
-
+Route::get('/challenges', function () {
+    return view('challenges');
+})->name('challenges');
 require __DIR__.'/auth.php';
