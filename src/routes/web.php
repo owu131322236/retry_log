@@ -28,3 +28,7 @@ Route::get('/challenges', function () {
     return view('challenges');
 })->name('challenges');
 require __DIR__.'/auth.php';
+
+Route::get('/myprogress', function () {
+    return view('myprogress');
+})->name('myprogress');
