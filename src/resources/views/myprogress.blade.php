@@ -3,7 +3,7 @@
         <div
             class="px-8 max-w-[1100px] mx-auto my-8 shadow-lg bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-green-600 from- via-emerald-600 via- to-teal-600 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]">
             <div class="flex flex-col items-start justify-center">
-                <p class="text-white text-2xl font-bold tracking-widest leading-tight tracking-[-0.015em] px-6 pb-6">Keep Track of Your Progress</p>
+                <p class="text-white text-2xl font-bold tracking-wide leading-tight tracking-[-0.015em] px-6 pb-6">Keep Track of Your Progress</p>
                 <p class="text-white text-sm font-normal leading-normal tracking-[0.015em] px-6 pb-6">続かなかった日も、再び始めた日も、すべてが大切な記録です。何度でも挑戦するあなたの積み重ねが、確かな形でここに残っています。変化は一歩ずつ、ゆっくりで大丈夫です。</p>
             </div>
         </div>
