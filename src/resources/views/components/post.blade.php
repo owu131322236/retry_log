@@ -4,9 +4,12 @@
             class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKZS_WEnpFEjPE5zOX4qN27VKdVIVnmYg667RwXbsEghVpnxweJZFiJ7PTtC78QKX9Qs8XW63-1bnDhaOu1Zg9LnBAmaFtlfOxj0M7fhUi_OkxaB6yIjju-fttAXiweHcXcwxoKMLlxG4eICa3NgfLWswiDXRLOBEZZvZcn3qoz7vm2_7kTUQjRF2-vMwrhhJ5hqjnU1R3ls92UqX903x3Wimk7eUpNSQYDNFo3-llMAa2RoQXsFOfxoUkGDe4iMQQoHC9oP4yTbk");'></div>
         <div class="flex h-full flex-1 flex-col items-start justify-start">
-            <div class="flex w-full flex-row items-start justify-start gap-x-3">
-                <p class="text-[#0d0d1c] text-sm font-bold leading-normal tracking-[0.015em]">Olivia Hayes</p>
-                <p class="text-[#49499c] text-sm font-normal leading-normal">6h ago</p>
+            <div class="flex w-full flex-row items-start justify-start items-center">
+                <p class="text-[#0d0d1c] text-sm font-bold leading-normal tracking-[0.015em] m-1">Olivia Hayes</p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                    <path fill="#0061ff" d="m12.05 19l2.85-2.825l-2.85-2.825L11 14.4l1.075 1.075q-.7.025-1.362-.225t-1.188-.775q-.5-.5-.763-1.15t-.262-1.3q0-.425.113-.85t.312-.825l-1.1-1.1q-.425.625-.625 1.325T7 12q0 .95.375 1.875t1.1 1.65t1.625 1.088t1.85.387l-.95.95zm4.125-4.25q.425-.625.625-1.325T17 12q0-.95-.363-1.888T15.55 8.45t-1.638-1.075t-1.862-.35L13 6.05L11.95 5L9.1 7.825l2.85 2.825L13 9.6l-1.1-1.1q.675 0 1.375.263t1.2.762t.763 1.15t.262 1.3q0 .425-.112.85t-.313.825zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
+                </svg>
+                <p class="text-[#49499c] text-sm font-normal leading-normal m-4">6h ago</p>
             </div>
             <p class="text-[#0d0d1c] text-sm font-normal leading-normal">Had a great meditation session this evening. Feeling calm and centered. #Meditation</p>
         </div>
