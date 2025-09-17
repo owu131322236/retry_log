@@ -1,66 +1,40 @@
 <x-app-layout>
+    <div class="flex bg-black text-center justify-center items-center tracking-widest text-white text-sm h-12">
+        RetryLogはまだまだ成長中！新しい機能や改善を随時追加しています✨　ぜひ触って体験して、フィードバックも送ってください！
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdsxBtpULdzC-1T4l4MIvKiRHaWNII4NSnWUiESX8Bl8b0BMQ/viewform?usp=header" target="_blank" class="text-xs underline underline-offset-2 hover:text-gray-300 ml-2">フィードバックを送る →
 
+        </a>
+    </div>
     <!-- </header>  -->
     <div class="flex flex-col justify-center items-center py-5">
 
         <div
-            class="px-8 max-w-[1100px] mx-auto my-8 bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]"
+            class="px-8 max-w-[1100px] mx-auto my-5 bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]"
             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyuWSbUlVXDheil_kgFnx9QFMK2U37-YCFN_Iwg-4pzFhlmbv9AvXxSuYvxITnCT_c7tGDNBxmXbQeUZMqT4McGSYs7ed_ZJjOnQhFHY7d8R7G-JfmlWTj1TdXt9rI-YNwGvo5cZLH_MAQ35sjfP1buDWK-pAF23jJwc6IIO7slzCkYyZiNURU_4ffrQx9U2gKtTPNkYMT6T0-3ApUM1zBvQfF2mDxMKjBVaZKqSTD7ryViY7o0AUdZ1wozw8vmnOgg-ggvjagTlM");'>
             <div class="flex flex-col items-start justify-center">
                 <p class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-6 pb-6">Welcome to RETRY LOG</p>
                 <p class="text-white text-sm font-normal leading-normal tracking-[0.015em] px-6 pb-6">後ろを向いた日があっても、それは終わりじゃない。今日またここに来てくれたこと、それが一歩です。あなたの“続けたい”を、ここで分かち合いましょう。</p>
             </div>
-            <Button class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 hover:bg-white/90">
-                つぶやきを投稿する
+            <Button class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 shadow-lg hover:bg-white/90 hover:scale-105 transition-all">
+                ＋つぶやきを投稿する
             </Button>
 
         </div>
-        <div class="flex space-around w-full py-5 my-8">
-            <div class="sticky top-20 layout-content-container flex flex-col w-80 h-fit mx-10 rounded-2xl border-2">
-                <div class="flex p-4 @container">
-                    <div class="flex w-full flex-col gap-4 items-center">
-                        <div class="flex gap-4 flex-col items-center">
-                            <div
-                                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
-                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCawObi8PcqLetxAHy7IO2LsQXlpZK45ijAFzpZOLZ1TdOnbGtfEtp3ekTMpc-uq2fsRYwpbQsDjwLmcmAA96iFGYAZztTyvpzAUyb-834qLjfQwHR8hBW0H7Zq1lTv6m6CCWrszs22zLq7qFmdVtG56JvrxkB-puAP2mYvwMHjSSFuq0ygDCBzjKnYS_fFGwZJz0DD7wEL8aELqjc4K1565YwgcE_hM7x7sYgHu7i8C66_mqDb-Geel6wSVJn8dGf1Snq1opqLi1A");'></div>
-                            <div class="flex flex-col items-center justify-center justify-center">
-                                <p class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">Emily Carter</p>
-                                <p class="text-[#49499c] text-base font-normal leading-normal text-center">@emily_carter</p>
-                                <p class="text-[#49499c] text-base font-normal leading-normal text-center">Morning exercise enthusiast</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap gap-3 px-4 py-3">
-                    <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cecee8] p-3 items-center text-center">
-                        <p class="text-[#0d0d1c] tracking-light text-2xl font-bold leading-tight">120</p>
-                        <div class="flex items-center gap-2">
-                            <p class="text-[#49499c] text-sm font-normal leading-normal">ポスト数</p>
-                        </div>
-                    </div>
-                    <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cecee8] p-3 items-center text-center">
-                        <p class="text-[#0d0d1c] tracking-light text-2xl font-bold leading-tight">85%</p>
-                        <div class="flex items-center gap-2">
-                            <p class="text-[#49499c] text-sm font-normal leading-normal">立ち直り率</p>
-                        </div>
-                    </div>
-                    <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cecee8] p-3 items-center text-center">
-                        <p class="text-[#0d0d1c] tracking-light text-2xl font-bold leading-tight">200</p>
-                        <div class="flex items-center gap-2">
-                            <p class="text-[#49499c] text-sm font-normal leading-normal">挑戦中のチャレンジ</p>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="text-[#0d0d1c] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">About</h3>
-                <p class="text-[#0d0d1c] text-base font-normal leading-normal pb-3 pt-1 px-4">Passionate about fitness and healthy living. Sharing my journey to inspire others!</p>
-                <!-- <h3 class="text-[#0d0d1c] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Joined</h3>
-                <p class="text-[#49499c] text-sm font-normal leading-normal pb-3 pt-1 px-4">November 2022</p> -->
-            </div>
-            <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+    </div>
+    <div class="flex justify-around p-4 my-5">
+        <x-profile-card />
+        <div class="layout-content-container flex flex-col w-2/3">
             <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[50px]"></div>
 
-                <h2 class="text-[#0d0d1c] tracking-light text-[28px] font-bold leading-tight px-4 text-left pb-3 pt-5">今日のつぶやき</h2>
-                <!-- post-1 -->
+            <h2 class="text-[#0d0d1c] tracking-light text-[28px] font-bold leading-tight text-left py-3">タイムライン</h2>
+            <!-- post-1 -->
+            <div id="content" class="flex flex-col m-5">
+                @for($i = 0; $i
+                < 10; $i++)
+                    <x-post />
+                @endfor
+            </div>
+            <!--
                 <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
                     <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
                         <div
@@ -94,9 +68,9 @@
                             <p class="text-[#49499c] text-[13px] font-bold leading-normal tracking-[0.015em]">5</p>
                         </div>
                     </div>
-                </div>
-                <!-- post-2 -->
-                <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
+                </div> -->
+            <!-- post-2 -->
+            <!-- <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
                     <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
                         <div
                             class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
@@ -130,9 +104,9 @@
                             <p class="text-[#49499c] text-[13px] font-bold leading-normal tracking-[0.015em]">3</p>
                         </div>
                     </div>
-                </div>
-                <!-- post-3 -->
-                <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
+                </div> -->
+            <!-- post-3 -->
+            <!-- <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
                     <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
                         <div
                             class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
@@ -165,9 +139,9 @@
                             <p class="text-[#49499c] text-[13px] font-bold leading-normal tracking-[0.015em]">2</p>
                         </div>
                     </div>
-                </div>
-                <!-- post-4 -->
-                <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
+                </div> -->
+            <!-- post-4 -->
+            <!-- <div class="rounded-3xl border-2 my-2 hover:border-primary/50 transition-all">
                     <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
                         <div
                             class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"
@@ -200,8 +174,7 @@
                             <p class="text-[#49499c] text-[13px] font-bold leading-normal tracking-[0.015em]">1</p>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div> -->
         </div>
     </div>
     </div>
