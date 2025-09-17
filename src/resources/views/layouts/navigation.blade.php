@@ -12,7 +12,8 @@
             <div class="flex items-center gap-9">
                 <a class="text-[#0d0d1c] text-sm font-medium leading-normal" href="{{ route('home') }}">Home</a>
                 <a class="text-[#0d0d1c] text-sm font-medium leading-normal" href="{{ route('challenges') }}">Challenges</a>
-                <a class="text-[#0d0d1c] text-sm font-medium leading-normal" href="{{ route('myprogress') }}">My Progress</a>
+                <a class="text-[#0d0d1c] text-sm font-medium leading-normal" href="{{ route('progress') }}">Progress</a>
+                <a class="text-[#0d0d1c] text-sm font-medium leading-normal" href="{{ route('mypage') }}">Profile</a>
                 <input
                     type="text"
                     placeholder="Search"
@@ -37,7 +38,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Edit profile') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
