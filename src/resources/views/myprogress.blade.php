@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="flex flex-col justify-center items-center py-5">
         <div
-            class="px-8 max-w-[950px] mx-auto my-8 shadow-lg bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-green-600 from- via-emerald-600 via- to-teal-600 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]">
+            class="px-8 max-w-[1100px] mx-auto my-8 shadow-lg bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-green-600 from- via-emerald-600 via- to-teal-600 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]">
             <div class="flex flex-col items-start justify-center">
-                <p class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-6 pb-6">Keep Track of Your Progress</p>
+                <p class="text-white text-2xl font-bold tracking-widest leading-tight tracking-[-0.015em] px-6 pb-6">Keep Track of Your Progress</p>
                 <p class="text-white text-sm font-normal leading-normal tracking-[0.015em] px-6 pb-6">続かなかった日も、再び始めた日も、すべてが大切な記録です。何度でも挑戦するあなたの積み重ねが、確かな形でここに残っています。変化は一歩ずつ、ゆっくりで大丈夫です。</p>
             </div>
         </div>
@@ -134,82 +134,88 @@
                     <p class="text-[#0d0d1c] tracking-light text-[32px] font-bold leading-tight min-w-72">進捗チェックボード</p>
                     <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[100px]"></div>
                 </div>
+                @php
+                $timeOptions = ['1w', '1m', '6m', '1y'];
+                @endphp
                 <div id="timeSelector" class="relative bg-gray-200 rounded-full p-2 flex w-fit space-x-2">
                     <div id="indicator" class="absolute top-2 left-2 h-10 w-24 rounded-full bg-white transition-all duration-300"></div>
                     <!-- z軸の方向に手前に動かす -->
-                    <button data-url="/progress/1w" class="relative z-10 px-6 py-2 rounded-full text-gray-900 bg-white">1週間</button>
-                    <button data-url="/progress/1m" class="relative z-10 px-6 py-2 rounded-full text-gray-500">1ヶ月</button>
-                    <button data-url="/progress/6m" class="relative z-10 px-6 py-2 rounded-full text-gray-500">6ヶ月</button>
-                    <button data-url="/progress/1y" class="relative z-10 px-6 py-2 rounded-full text-gray-500">1年</button>
+                    <button data-template="1w" class="relative z-10 px-6 py-2 rounded-full text-gray-900 bg-white">1週間</button>
+                    <button data-template="1m" class="relative z-10 px-6 py-2 rounded-full text-gray-500">1ヶ月</button>
+                    <button data-template="6m" class="relative z-10 px-6 py-2 rounded-full text-gray-500">6ヶ月</button>
+                    <button data-template="1y" class="relative z-10 px-6 py-2 rounded-full text-gray-500">1年</button>
                 </div>
                 <div id="content" class="my-5">
-
                 </div>
-
-                <div class="flex flex-wrap gap-4 p-4 mb-5">
-                    <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
-                        <p class="text-green-600 text-base font-medium leading-normal">挑戦中のチャレンジ</p>
-                        <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">5</p>
-                    </div>
-                    <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
-                        <p class="text-green-600 text-base font-medium leading-normal">達成率</p>
-                        <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">75%</p>
-                    </div>
-                    <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
-                        <p class="text-green-600 text-base font-medium leading-normal">Persistence Rate</p>
-                        <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">80%</p>
-                    </div>
-                </div>
-                <div class="flex flex_col items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
-                        <path fill="#77bb41" d="m2.75 19.25l5.325-5.325q.575-.575 1.425-.575t1.425.575L13.5 16.5l6.4-7.225q.275-.325.713-.325t.737.3q.275.275.287.663t-.262.687L14.9 17.9q-.575.65-1.425.688T12 18l-2.5-2.5l-5.25 5.25q-.325.325-.75.325t-.75-.325t-.325-.75t.325-.75m0-6l5.325-5.325Q8.65 7.35 9.5 7.35t1.425.575L13.5 10.5l6.4-7.225q.275-.325.713-.325t.737.3q.275.275.287.662t-.262.688L14.9 11.9q-.575.65-1.425.688T12 12L9.5 9.5l-5.25 5.25q-.325.325-.75.325t-.75-.325t-.325-.75t.325-.75" />
-                    </svg>
-                    <h2 class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] my-auto px-5">成長グラフ</h2>
-                </div>
-                <div class="flex flex-wrap gap-4 px-4 py-6">
-                    <div class="flex min-w-72 flex-1 flex-col bg-white gap-2 rounded-xl border border-[#cecee8] p-6">
-                        <p class="text-[#0d0d1c] text-base font-medium leading-normal">今日のチャレンジ</p>
-                        <p class="text-[#0d0d1c] tracking-light text-[32px] font-bold leading-tight truncate">15件</p>
-                        <div class="flex gap-1">
-                            <p class="text-[#49499c] text-base font-normal leading-normal">前週より</p>
-                            <p class="text-[#4A90E2] text-base font-medium leading-normal">+10%</p>
+                @foreach ($timeOptions as $time)
+                <template id={{ $time }}>
+                    <div class="flex flex-wrap gap-4 p-4 mb-5">
+                        <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
+                            <p class="text-green-600 text-base font-medium leading-normal">挑戦中のチャレンジ</p>
+                            <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">5</p>
                         </div>
-                        <div class="flex">
-                            <!-- グラフの数値 -->
-                            <div class="flex flex-col justify-between text-gray-500 pr-4 text-right h-[176px]">
-                                <span>100</span>
-                                <span>75</span>
-                                <span>50</span>
-                                <span>25</span>
-                                <span>0</span>
+                        <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
+                            <p class="text-green-600 text-base font-medium leading-normal">達成率</p>
+                            <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">75%</p>
+                        </div>
+                        <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
+                            <p class="text-green-600 text-base font-medium leading-normal">Persistence Rate</p>
+                            <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">80%</p>
+                        </div>
+                    </div>
+                    <div class="flex flex_col items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                            <path fill="#77bb41" d="m2.75 19.25l5.325-5.325q.575-.575 1.425-.575t1.425.575L13.5 16.5l6.4-7.225q.275-.325.713-.325t.737.3q.275.275.287.663t-.262.687L14.9 17.9q-.575.65-1.425.688T12 18l-2.5-2.5l-5.25 5.25q-.325.325-.75.325t-.75-.325t-.325-.75t.325-.75m0-6l5.325-5.325Q8.65 7.35 9.5 7.35t1.425.575L13.5 10.5l6.4-7.225q.275-.325.713-.325t.737.3q.275.275.287.662t-.262.688L14.9 11.9q-.575.65-1.425.688T12 12L9.5 9.5l-5.25 5.25q-.325.325-.75.325t-.75-.325t-.325-.75t.325-.75" />
+                        </svg>
+                        <h2 class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] my-auto px-5">成長グラフ</h2>
+                    </div>
+                    <div class="flex flex-wrap gap-4 px-4 py-6">
+                        <div class="flex min-w-72 flex-1 flex-col bg-white gap-2 rounded-xl border border-[#cecee8] p-6">
+                            <p class="text-[#0d0d1c] text-base font-medium leading-normal">{{ $time }}のチャレンジ</p>
+                            <p class="text-[#0d0d1c] tracking-light text-[32px] font-bold leading-tight truncate">15件</p>
+                            <div class="flex gap-1">
+                                <p class="text-[#49499c] text-base font-normal leading-normal">前週より</p>
+                                <p class="text-[#4A90E2] text-base font-medium leading-normal">+10%</p>
                             </div>
-                            <div class="relative flex-1">
-                                <div class="absolute w-full h-full top-0 left-0">
-                                    <svg class="w-full h-full" preserveAspectRatio="none">
-                                        <path d="M0 100 C 50 80, 100 60, 150 70 S 250 110, 300 90 S 400 50, 450 80 S 550 120, 600 100, 650 150 700 80" fill="none" stroke="#4A90E2" stroke-width="3"></path>
-                                    </svg>
+                            <div class="flex">
+                                <!-- グラフの数値 -->
+                                <div class="flex flex-col justify-between text-gray-500 pr-4 text-right h-[176px]">
+                                    <span>100</span>
+                                    <span>75</span>
+                                    <span>50</span>
+                                    <span>25</span>
+                                    <span>0</span>
                                 </div>
-                                <!-- グラフの背景 -->
-                                <div class="space-y-8 pb-4 h-[176px]">
-                                    <div class="border-b border-dashed border-gray-300 h-1/4"></div>
-                                    <div class="border-b border-dashed border-gray-300 h-1/4"></div>
-                                    <div class="border-b border-dashed border-gray-300 h-1/4"></div>
-                                    <div class="border-b border-dashed border-gray-300 h-1/4"></div>
-                                    <div class="h-1/4"></div>
+                                <div class="relative flex-1">
+                                    <div class="absolute w-full h-full top-0 left-0">
+                                        <svg class="w-full h-full" viewBox="0 0 700 176" preserveAspectRatio="xMidYMid meet">
+                                            <path d="M0 100 C 50 80, 100 60, 150 70 S 250 110, 300 90 S 400 50, 450 80 S 550 120, 600 100, 650 150 700 80" fill="none" stroke="#4A90E2" stroke-width="3"></path>
+                                        </svg>
+                                    </div>
+                                    <!-- グラフの背景 -->
+                                    <div class="space-y-8 pb-4 h-[176px]">
+                                        <div class="border-b border-dashed border-gray-300 h-1/4"></div>
+                                        <div class="border-b border-dashed border-gray-300 h-1/4"></div>
+                                        <div class="border-b border-dashed border-gray-300 h-1/4"></div>
+                                        <div class="border-b border-dashed border-gray-300 h-1/4"></div>
+                                        <div class="h-1/4"></div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="flex justify-between text-gray-500 mt-2 pt-2 border-t border-gray-200 ml-[44px]">
-                            <span>Sun</span>
-                            <span>Mon</span>
-                            <span>Tue</span>
-                            <span>Wed</span>
-                            <span>Thu</span>
-                            <span>Fri</span>
-                            <span>Sat</span>
+                            <div class="flex justify-between text-gray-500 mt-2 pt-2 border-t border-gray-200 ml-[44px]">
+                                <span>Sun</span>
+                                <span>Mon</span>
+                                <span>Tue</span>
+                                <span>Wed</span>
+                                <span>Thu</span>
+                                <span>Fri</span>
+                                <span>Sat</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </template>
+                @endforeach
+
                 <div class="flex flex_col items-center my-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
                         <path fill="#77bb41" d="M12 4.21c1.24.51 2.65.79 4 .79c1.05 0 2.1-.16 3.08-.46C18.5 5.5 18 6.71 18 8c0 1.32.54 2.93 1.1 4.63c.4 1.2.9 2.7.9 3.37c0 1.03-3.53 3-8 3.96C7.54 19 4 17.03 4 16c0-.67.5-2.17.9-3.37C5.46 10.93 6 9.32 6 8c0-1.29-.5-2.5-1.08-3.46C5.9 4.84 6.96 5 8 5c1.35 0 2.76-.28 4-.79M20 2c-1.15.64-2.6 1-4 1s-2.86-.37-4-1c-1.14.63-2.6 1-4 1s-2.85-.36-4-1L2 4s2 2 2 4s-2 6-2 8c0 4 10 6 10 6s10-2 10-6c0-2-2-6-2-8s2-4 2-4zm-4.95 14.45l-3.08-1.86l-3.07 1.86l.82-3.5L7 10.61l3.58-.31L11.97 7l1.4 3.29l3.58.31l-2.72 2.34z" />
@@ -282,17 +288,21 @@
         }
 
         modeIndicator(buttons[0]);
+        content.innerHTML = document.getElementById(buttons[0].dataset.template).innerHTML;
 
         buttons.forEach(button => {
             button.addEventListener('click', async () => {
                 modeIndicator(button);
-                buttons.forEach(btn => {
-                    btn.classList.remove('bg-white', 'text-gray-900');
-                    btn.classList.add('text-gray-500');
+                buttons.forEach(button => {
+                    button.classList.remove('bg-white', 'text-gray-900');
+                    button.classList.add('text-gray-500');
                 });
-                buttons.forEach(b => b.classList.replace("text-gray-900", "text-gray-700"));
-                btn.classList.replace("text-gray-700", "text-gray-900");
-
+                button.classList.remove('text-gray-500');
+                button.classList.add('text-gray-900');
+                // 表示内容の切り替え
+                const template = document.getElementById(button.dataset.template);
+                content.innerHTML = template.innerHTML;
+                window.history.pushState({}, "", button.dataset.url);
                 // const url = button.getAttribute('data-url');
                 // fetch(url)
                 //     .then(response => response.text())
