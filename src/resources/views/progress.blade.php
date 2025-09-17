@@ -298,7 +298,7 @@
                     button.classList.add('text-gray-500');
                 });
                 button.classList.remove('text-gray-500');
-                button.classList.add('text-gray-900');
+                button.classList.add('text-gray-900','font-bold');
                 // 表示内容の切り替え
                 const template = document.getElementById(button.dataset.template);
                 content.innerHTML = template.innerHTML;
