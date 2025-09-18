@@ -20,11 +20,11 @@
             <div class="flex flex-col m-5">
                 <h2 class="text-2xl font-bold text-gray-800 w-fit">進行中のチャレンジ</h2>
                 <div class="flex items-center space-x-2 my-3">   
-                    <div class="bg-blue-500 rounded-full h-3 w-3"></div>
-                    <p class="text-sm text-blue-500 w-fit">7 challenges</p>
+                    <div class="bg-blue-600 rounded-full h-3 w-3"></div>
+                    <p class="text-sm text-blue-600 w-fit">7 challenges</p>
                 </div>
             </div>
-            <div id="content" class="flex flex-wrap gap-8 m-5">
+            <div id="content" class="flex flex-wrap gap-5 w-full mx-5">
                 @for($i=0; $i<5; $i++)
                     <x-challenge-public-card />
             @endfor
