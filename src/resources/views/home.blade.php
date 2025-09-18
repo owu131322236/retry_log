@@ -31,7 +31,7 @@
             <div id="content" class="flex flex-col m-5">
                 @for($i = 0; $i
                 < 10; $i++)
-                    <x-post />
+                    <x-posts.post />
                 @endfor
             </div>
             <!--
