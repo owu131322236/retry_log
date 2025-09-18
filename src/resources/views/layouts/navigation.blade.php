@@ -14,12 +14,10 @@
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('challenges') }}">Challenges</a>
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('progress') }}">Progress</a>
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('mypage') }}">Profile</a>
-                <input
-                    type="text"
-                    placeholder="Search"
-                    class="flex max-w-[480px] h-10 rounded-xl border border-gray-300 bg-white px-3.5 py-2 text-sm leading-normal text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 w-full" />
+                <button id="header-open" class="text-white text-sm font-bold leading-normal tracking-wider py-2 px-8 rounded-lg bg-blue-600 hover:scale-105 transition">＋New Post</button>
+                <x-posts.post-create-form />
                 <button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10  text-gray-500 gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-[50px] px-2.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 32 32"><!-- Icon from Line Awesome by Icons8 - https://www.apache.org/licenses/LICENSE-2.0 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32"><!-- Icon from Line Awesome by Icons8 - https://www.apache.org/licenses/LICENSE-2.0 -->
                         <path fill="currentColor" d="M16 3a2 2 0 0 0-2 2c0 .086.02.168.031.25C10.574 6.133 8 9.273 8 13v9c0 .566-.434 1-1 1H6v2h7.188A3 3 0 0 0 13 26c0 1.645 1.355 3 3 3s3-1.355 3-3a3 3 0 0 0-.188-1H26v-2h-1c-.566 0-1-.434-1-1v-8.719c0-3.758-2.512-7.11-6.031-8.031c.011-.082.031-.164.031-.25a2 2 0 0 0-2-2m-.438 4c.145-.012.29 0 .438 0h.188C19.453 7.098 22 9.96 22 13.281V22c0 .352.074.684.188 1H9.813A3 3 0 0 0 10 22v-9a6.005 6.005 0 0 1 5.563-6zM16 25c.563 0 1 .438 1 1s-.438 1-1 1s-1-.438-1-1s.438-1 1-1" />
                     </svg>
                 </button>
@@ -67,7 +65,17 @@
         </div>
     </div>
 
-
+    <script>
+        const headerOpenBtn = document.getElementById("header-open");
+        const headerModal = document.getElementById("header-modal");
+        const headerCloseBtn = document.getElementById("header-close");
+        headerOpenBtn.addEventListener("click", () => {
+            headerModal.classList.remove("hidden");
+        });
+        headerCloseBtn.addEventListener("click", () => {
+            headerModal.classList.add("hidden");
+        });
+    </script>
 
     <!-- </div>
     </div> -->
