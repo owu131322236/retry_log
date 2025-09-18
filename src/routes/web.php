@@ -36,3 +36,6 @@ Route::get('/progress', function () {
 Route::get('/mypage', function () {
     return view('mypage');
 })->name('mypage');
+Route::get('/post-show', function () {
+    return view('post-show');
+})->name('post-show');

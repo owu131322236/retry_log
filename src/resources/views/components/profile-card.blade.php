@@ -1,4 +1,4 @@
-<div class="layout-content-container flex flex-col bg-white w-80 h-fit mx-10 rounded-2xl shadow-lg">
+<div class="layout-content-container flex flex-col bg-white w-80 h-fit rounded-2xl shadow-lg">
     <div class="flex p-4 @container">
         <div class="flex w-full flex-col gap-4 items-center">
             <div
