@@ -58,6 +58,10 @@
     <button class="w-full bg-indigo-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-teal-600 transition duration-300 flex items-center justify-center">
         もう一度挑戦する
     </button>
+    @else
+    <button class="w-full bg-gray-300 text-white font-bold py-3 px-4 rounded-lg hover:bg-teal-600 transition duration-300 flex items-center justify-center">
+        達成済み
+    </button>
     @endif
 
 </div>
