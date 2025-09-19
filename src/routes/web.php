@@ -25,7 +25,7 @@ Route::get('/home', function () {
 })->name('home');   
 
 Route::get('/challenges', function () {
-    return view('challenges');
+    return view('challenges/index');
 })->name('challenges');
 require __DIR__.'/auth.php';
 
@@ -39,3 +39,9 @@ Route::get('/mypage', function () {
 Route::get('/post-show', function () {
     return view('post-show');
 })->name('post-show');
+Route::get('/post-create', function () {
+    return view('post-create');
+})->name('post-create');
+Route::get('/challenge-all', function () {
+    return view('challenges/all');
+})->name('challenge-all');
