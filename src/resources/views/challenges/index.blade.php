@@ -86,7 +86,7 @@
         <div class="flex space-x-8 px-10 py-5">
             @for ($i = 0; $i
             < 5; $i++)
-                <x-challenge-ongoing-card />
+                <x-challenge-card.challenge-ongoing-card />
             @endfor
         </div>
     </div>
@@ -101,7 +101,7 @@
     <div class="overflow-x-auto">
         <div class="flex space-x-8 px-10">
             @foreach ($challenges as $challenge)
-            <x-challenge-completed-card :challenge="$challenge" />
+            <x-challenge-card.challenge-completed-card :challenge="$challenge" />
             @endforeach
         </div>
     </div>
