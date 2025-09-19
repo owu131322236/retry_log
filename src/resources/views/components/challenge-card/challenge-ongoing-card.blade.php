@@ -8,7 +8,7 @@
                     <h3 class="text-xl font-bold text-gray-900">ああああああ</h3>
                 </div>
                 <div class="mb-4">
-                    <div class="flex justify-between text-gray-600 mb-1">
+                    <div class=     "flex justify-between text-gray-600 mb-1">
                         <span>進捗</span>
                         <span>0/30日</span>
                     </div>

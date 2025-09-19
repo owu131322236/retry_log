@@ -26,7 +26,7 @@
             </div>
             <div id="content" class="flex flex-wrap gap-5 w-full mx-5">
                 @for($i=0; $i<5; $i++)
-                    <x-challenge-public-card />
+                    <x-challenge-card.challenge-public-ongoing-card />
             @endfor
         </div>
     </div>
