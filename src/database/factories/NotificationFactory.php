@@ -34,7 +34,7 @@ class NotificationFactory extends Factory
             'group_key' => $target ? strtolower(class_basename($targetClass)) . ":" . $target->id . ":" . $actionType->value : null,
             'payload' => ['message' => $this->faker->sentence()],
             'read_at' => $this->faker->boolean(20) ? now() : null,
-            'notified_at' => now()->$this->faker->dateTimeBetween('-30 days', 'now'),
+            'notified_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
         ];
     }
 }

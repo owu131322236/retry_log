@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('challenge_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('challenge_id')->nullable()->constrained('challenges')->onDelete('cascade');
-            $table->foreignId('status_id')->constrained('challenge_statuses')->onDelete('set null');
+            $table->foreignId('status_id')->nullable()->constrained('challenge_statuses')->onDelete('set null');
             $table->timestamp('logged_at'); 
             $table->timestamps();
             $table->softDeletes();

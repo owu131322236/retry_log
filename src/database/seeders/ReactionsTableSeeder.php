@@ -16,16 +16,38 @@ class ReactionsTableSeeder extends Seeder
     public function run(): void
     {
     Post::all()->each(function($post){
-        Reaction::factory()->count(rand(0,10))->create([
-            'target_type' => get_class($post),
-            'target_id' =>$post->id
-        ]);
+        for($i=0; $i<rand(0,10); $i++){
+            $reaction = Reaction::factory()->make([
+                'target_type' => get_class($post),
+                'target_id' =>$post->id
+            ]);
+
+            Reaction::firstOrCreate([
+                'user_id' => $reaction->user_id,
+                'reaction_type_id' => $reaction->reaction_type_id,
+                'target_type' => $reaction->target_type,
+                'target_id' => $reaction->target_id,
+            ],
+            $reaction->toArray()
+            );
+        }
     });
     Comment::all()->each(function($comment){
-        Reaction::factory()->count(rand(0,10))->create([
-            'target_type' =>get_class($comment),
-            'target_id' => $comment->id,
-        ]);
+        for($i=0; $i<rand(0,10); $i++){
+            $reaction = Reaction::factory()->make([
+                'target_type' => get_class($comment),
+                'target_id' =>$comment->id
+            ]);
+
+            Reaction::firstOrCreate([
+                'user_id' => $reaction->user_id,
+                'reaction_type_id' => $reaction->reaction_type_id,
+                'target_type' => $reaction->target_type,
+                'target_id' => $reaction->target_id,
+            ],
+            $reaction->toArray()
+            );
+        }
     });
     }
 }
