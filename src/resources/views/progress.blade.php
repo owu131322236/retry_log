@@ -159,7 +159,7 @@
                             <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">75%</p>
                         </div>
                         <div class="flex min-w-[158px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
-                            <p class="text-green-600 text-base font-medium leading-normal">Persistence Rate</p>
+                            <p class="text-green-600 text-base font-medium leading-normal">完了チャレンジ数</p>
                             <p class="text-[#0d0d1c] tracking-light text-4xl font-bold leading-tight">80%</p>
                         </div>
                     </div>
