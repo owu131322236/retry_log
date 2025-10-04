@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('recipient_user_id')->constrained('users')->onDelete('cascade')->index();
-            $table->foreignId('actor_user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('taerget_type');
+            $table->foreignId('recipient_user_id')->constrained('users')->onDelete('cascade')->index()->name('fk_notifications_recipient_user_id');
+            $table->foreignId('actor_user_id')->nullable()->constrained('users')->onDelete('set null')->name('fk_notifications_actor_user_id');
+            $table->string('target_type');
             $table->unsignedBigInteger('target_id');
             $table->string('action_type');
             $table->string('group_key')->nullable();
