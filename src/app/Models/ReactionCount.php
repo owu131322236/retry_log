@@ -13,7 +13,7 @@ class ReactionCount extends Model
 
     protected $casts = [
         'count' => 'integer',
-        'target_id' =>'intenger'
+        'target_id' =>'integer'
     ];
 
     public function reactionType()

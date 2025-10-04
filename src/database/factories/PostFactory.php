@@ -22,7 +22,7 @@ class PostFactory extends Factory
             'challenge_log_id' =>\App\Models\ChallengeLog::factory(),
             'content' => $this->faker->paragraph(),
             'comments_count' => 0,
-            'post_type' => \App\Models\PostType::inRandomOrder()->first()->id,
+            'post_type_id' => \App\Models\PostType::inRandomOrder()->first()->id,
         ];
     }
 }
