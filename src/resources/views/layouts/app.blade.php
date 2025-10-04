@@ -28,7 +28,8 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="flex-grow mt-20 mb-20">
+            <main class="flex-grow mt-20 mb-20 bg-[url('https://t4.ftcdn.net/jpg/03/30/88/07/240_F_330880788_m0tRyrkrqh6M9ZEBZjTDmO0S9hlTCupo.jpg')] bg-cover bg-center">
+                
                 {{ $slot }}
             </main>
             @include('layouts.footer')
