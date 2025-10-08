@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,12 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // タイムライン(ホーム画面)
+    Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline');
 });
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home');   
-
 Route::get('/challenges', function () {
     return view('challenges/index');
 })->name('challenges');
