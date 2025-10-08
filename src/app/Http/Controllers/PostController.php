@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -10,12 +12,8 @@ class PostController extends Controller
      * Display a listing of the resource.
      */
     protected $postService;
-    public function __construct()
-    {
-    }
-    public function index()
-    {
-    }
+    public function __construct() {}
+    public function index() {}
 
     /**
      * Show the form for creating a new resource.

@@ -12,7 +12,7 @@
 
         <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('home') }}">Home</a>
+                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('timeline') }}">Home</a>
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('challenges') }}">Challenges</a>
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('progress') }}">Progress</a>
                 <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('mypage') }}">Profile</a>
