@@ -21,11 +21,8 @@ class TimelineController extends Controller
     public function index()
     {
         $user = $this->userService->getUserProfile(auth()->id());
-        $timeline = $this->postService->getTimelinePosts(auth()->id(), 20);
-        return response()->json([
-            'user' => $user,
-            'timeline' => $timeline,
-        ]);
+        $timeline = $this->postService->getTimelinePosts(20);
+        return view('timeline', compact('user', 'timeline'));
     }
 
     /**
