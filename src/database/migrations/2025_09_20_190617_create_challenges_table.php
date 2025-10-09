@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('challenges', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->index();
-            $table->string('state')->default('in_progress');
+            $table->string('state')->nullable()->default('in_progress');
             $table->string('title');
+            $table->text('description')->nullable();
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();
             $table->string('frequency_type')->default('daily');

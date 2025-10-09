@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\ChallengeState;
+use App\Models\ChallengeLog;
 use App\Models\Challenge;
+use Carbon\Carbon;
 
 class ChallengeService
 {
@@ -32,7 +35,47 @@ class ChallengeService
                         ->orWhere('state', 'completed');
             });
             return $usePaginate 
-                ? $query->take($limit)->cursorPaginate($limit) 
-                : $query->get($limit);
+                ? $query->cursorPaginate($limit) 
+                : $query->limit(($limit))->get();
+    }
+
+
+    //Challengeの達成率を計算するメソッド
+    private function calculateAcheivementRate(Challenge $challenge){
+        $today = Carbon::today();
+        $start = Carbon::parse($challenge->start_date);
+        $logs = ChallengeLog::with('status')
+            ->where('challenge_id', $challenge->id)
+            ->whereBetween('logged_at', [$start, $today])
+            ->get();
+            $expectedTotal = match ($challenge->frequency_type) {
+                'daily' => $start->diffInDays($today) + 1,
+                'weekly' => ceil(($start->diffInDays($today) + 1) / 7),
+                'monthly' => ceil(($start->diffInDays($today) + 1) / 30),
+                default => 0,
+            };
+            $expectedTotal *= ($challenge->frequency_goal ?? 1); //ここで計算
+            $successCount = $logs->filter(function($log){
+                return $log->status->name === 'success';
+            })->count();
+            $achievementRate = $expectedTotal > 0 ? $successCount / $expectedTotal : 0;
+            return $achievementRate;
+    }
+    public function calculateChallengeState(Challenge $challenge)
+    {
+        $now = Carbon::now();
+        if ($challenge->status === ChallengeState::INTERRUPTED) {
+            return ChallengeState::INTERRUPTED;
+        }
+        if ($challenge->start_date->gt($now)) {
+            return ChallengeState::NOT_STARTED;
+        }
+        if ($challenge->end_date->lt($now)) {
+            $rate = $this->calculateAcheivementRate($challenge);
+            return $rate >= 0.7
+                ? ChallengeState::COMPLETED
+                : ChallengeState::FAILED;
+        }
+        return ChallengeState::IN_PROGRESS;
     }
 }

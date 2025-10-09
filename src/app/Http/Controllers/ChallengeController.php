@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Aoo\Models\Challenge;
+use App\Models\Challenge;
 use App\Services\ChallengeService;
 use Illuminate\Http\Request;
 
@@ -15,16 +15,13 @@ class ChallengeController extends Controller
     {
         $this->challengeService = $challengeService;
     }
-    public function preview()
+    public function index()
     {
         $ongoingChallenges = $this->challengeService->getUserOngoingChallenges(auth()->id(), 20, true);
         $endedChallenges = $this->challengeService->getUserEndedChallenges(auth()->id(), 20, true);
-        return response()->json([
-            'ongoingChallenges' => $ongoingChallenges,
-            'endedChallenges' => $endedChallenges,
-        ]);
+        return view('challenges.index', compact('ongoingChallenges', 'endedChallenges'));
     }
-    public function index()
+    public function all()
     {
         $allChallenges = $this->challengeService->getUserChallenges(auth()->id(), 20, true);
     }
@@ -44,11 +41,46 @@ class ChallengeController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:15',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:200',
+            'frequency_type' => 'required|in:daily,weekly,monthly',
+            'frequency_goal' => 'required|integer|min:1',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             //ここpush前に直す
         ]);
+        $challenge = Challenge::create([
+            'user_id' => auth()->id(),
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'frequency_type' => $validated['frequency_type'],
+            'frequency_goal' => $validated['frequency_goal'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+        ]);
+        $challenge->state = $this->challengeService->calculateChallengeState($challenge);
+        $challenge->current_streak = 0;
+        $challenge->max_streak = 0;
+        $challenge->save();
+        return redirect()->route('challenges')->with('success', 'チャレンジが作成されました');
+    }
+    public function restart(Request $request, Challenge $challenge)
+    {   
+        $validated = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+        $original = $challenge;
+        if($original->user_id !== auth()->id()){
+            abort(403,'あなたはこの操作を実行する権限がありません');
+        }
+        $newChallenge = $original->replicate(['start_date', 'end_date', 'state','created_at','updated_at']); //これらのカラムは複製しない
+        $newChallenge->start_date = $validated['start_date'];
+        $newChallenge->end_date = $validated['end_date'];
+        $newChallenge->state = $this->challengeService->calculateChallengeState($newChallenge);
+        $newChallenge->save();
+        return redirect()
+            ->route('challenges')
+            ->with('success', 'チャレンジが再開されました');
     }
 
     /**
@@ -72,14 +104,37 @@ class ChallengeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $challenge = Challenge::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:15',
+            'description' => 'nullable|string',
+            'frequency_type' => 'required|in:daily,weekly,monthly',
+            'frequency_goal' => 'required|integer|min:1',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $challenge->update($validated);
+        $challenge->state = $this->challengeService->calculateChallengeState($challenge);
+        $challenge->save();
+        return redirect()
+            ->route('challenges')
+            ->with('success', 'チャレンジが更新されました');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Challenge $challenge)
     {
-        //
+        if($challenge->user_id !== auth()->id()){
+            abort(403,'あなたはこの操作を実行する権限がありません');
+        }
+        $challenge->delete();
+        return redirect()
+            ->route('challenges')
+            ->with('success', 'チャレンジが削除されました');
     }
+    
 }

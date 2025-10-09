@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimelineController;
+use App\Http\Controllers\ChallengeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,10 +23,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // タイムライン(ホーム画面)
     Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline');
+    //チャレンジ画面
+    Route::get('/challenges', [ChallengeController::class, 'index'])->name('challenges');
+    Route::post('/challenges/store', [ChallengeController::class, 'store'])->name('challenges.store');
+    Route::post('/challenges/{challenge}/restart', [ChallengeController::class, 'restart'])->name('challenges.restart');
+    Route::delete('/challenges/{challenge}/destroy', [ChallengeController::class, 'destroy'])->name('challenges.destroy');
 });
-Route::get('/challenges', function () {
-    return view('challenges/index');
-})->name('challenges');
+
 require __DIR__.'/auth.php';
 
 Route::get('/progress', function () {
