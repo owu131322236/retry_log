@@ -25,11 +25,6 @@ class UserController extends Controller
         $posts = $this->postService->getUserPosts($userId, 20);
         $reactionPosts = $this->postService->getReactionPosts($userId, 20);
         $challneges = $this->challengeService->getUserOngoingChallenges($userId, 20, false);
-        return response()->json([
-            'users' => $users,
-            'posts' => $posts,
-            'reactionPosts' => $reactionPosts,
-            'challneges' => $challneges,
-        ]);
+        return view('mypage', compact('users', 'posts', 'reactionPosts', 'challneges'));
     }
 }
