@@ -10,18 +10,24 @@ class Challenge extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'state',
         'title',
+        'description',
         'start_date',
         'end_date',
         'frequency_type',
         'frequency_goal',
+        'current_steak',
+        'max_steak',
     ];
-
     protected $casts = [
         'frequency_type' => \App\Enums\ChallengeFrequency::class,
         'state' => \App\Enums\ChallengeState::class,
         'start_date' => 'datetime',
         'end_date' => 'datetime',
+        'current_steak' => 'integer',
+        'max_steak' => 'integer',
     ];
     protected static function booted()
     {

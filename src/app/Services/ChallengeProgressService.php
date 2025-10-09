@@ -38,12 +38,10 @@ class ChallengeProgressService{
             $goal = $challenge->frequency_goal ?? 1;
             $type = $challenge->frequency_type;
             $days = $start->copy()->diffInDays($today) + 1;
-            $weeks = ceil($days / 7);
-            $months = ceil($days / 30);
             return match($type){
                 'daily' => $days * $goal,
-                'weekly' => $weeks * $goal,
-                'monthly' => $months * $goal,
+                'weekly' => ($days/7) * $goal,
+                'monthly' => ($days/30) * $goal,
                 default => 0,
             };
         });
