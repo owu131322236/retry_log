@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class ChallengeService
 {
-    public function getUserChallenges($userId, $limit = 20)
+    public function getUserChallenges($userId)
     {
         return Challenge::with(['challengeLogs', 'challengeLogs.challengeStatus'])
             ->where('user_id', $userId)
@@ -24,7 +24,7 @@ class ChallengeService
             });
             return $usePaginate 
                 ? $query->take($limit)->cursorPaginate($limit) 
-                : $query->get($limit);
+                : $query->take($limit)->get();
     }
     public function getUserEndedChallenges(int $userId, int $limit = 20, $usePaginate = false)
     {
@@ -36,14 +36,14 @@ class ChallengeService
             });
             return $usePaginate 
                 ? $query->cursorPaginate($limit) 
-                : $query->limit(($limit))->get();
+                : $query->take($limit)->get();
     }
 
 
     //Challengeの達成率を計算するメソッド
     private function calculateAcheivementRate(Challenge $challenge){
         $today = Carbon::today();
-        $start = Carbon::parse($challenge->start_date);
+        $start = $challenge->start_date;
         $logs = ChallengeLog::with('status')
             ->where('challenge_id', $challenge->id)
             ->whereBetween('logged_at', [$start, $today])
