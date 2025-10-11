@@ -47,7 +47,7 @@
         </div>
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
-            <x-text-area name="bio" value="{{ old('introduction', $user->bio) }}"/>
+            <x-text-area name="bio" value="{{ old('bio', $user->bio) }}"/>
         </div>
 
         <div class="flex items-center gap-4">
