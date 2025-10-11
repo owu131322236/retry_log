@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Services\UserService;
 use App\Services\PostService;
@@ -9,22 +10,33 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    protected $userService;
-    protected $postService;
-    protected $challengeService;
-    public function __construct(UserService $userService, PostService $postService ,ChallengeService $challengeService)
+    protected UserService $userService;
+    protected PostService $postService;
+    protected ChallengeService $challengeService;
+    public function __construct(UserService $userService, PostService $postService, ChallengeService $challengeService)
     {
         $this->userService = $userService;
         $this->postService = $postService;
         $this->challengeService = $challengeService;
     }
-    public function index()
-    {
-        $userId = auth()->id() ?? 1;
-        $users = $this->userService->getUserProfile($userId);
-        $posts = $this->postService->getUserPosts($userId, 20);
-        $reactionPosts = $this->postService->getReactionPosts($userId, 20);
-        $challneges = $this->challengeService->getUserOngoingChallenges($userId, 20, false);
-        return view('mypage', compact('users', 'posts', 'reactionPosts', 'challneges'));
+    public function index(User $user)
+    {   //profile-card用の処理
+        $currentUser = auth()->user();
+        $profileUserId = $user->id;
+        $profileUser = $this->userService->getUserProfile($profileUserId);
+        $context = $this->userService->getProfileContext($currentUser, $profileUser);
+        $posts = $this->postService->getUserPosts($profileUserId, 20);
+        //mypage用の処理
+        $reactionPosts = $this->postService->getReactionPosts($profileUserId, 20);
+        $challenges = $this->challengeService->getUserOngoingChallenges($profileUserId, 20, false);
+        return view('mypage', [
+            'profileUser' => $profileUser,
+            'currentUser' => $currentUser,
+            'posts' => $posts,
+            'reactionPosts' => $reactionPosts,
+            'challenges' => $challenges,
+            'isOwnProfile' => $context['isOwnProfile'],
+            'isFollowing' => $context['isFollowing'],
+        ]);
     }
 }
