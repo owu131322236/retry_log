@@ -1,5 +1,5 @@
 @props(['post'])
-<div class="rounded-3xl bg-white shadow-lg h-fit my-2 hover:border-primary/50 hover:scale-105 transition-all">
+<div class="rounded-3xl bg-white shadow-lg h-fit w-full my-2 hover:border-primary/50 hover:scale-105 transition-all">
     <div class="flex w-full flex-row items-start justify-start gap-3 p-4">
         <div
             class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 shrink-0"

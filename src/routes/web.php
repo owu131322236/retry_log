@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/challenges/store', [ChallengeController::class, 'store'])->name('challenges.store');
     Route::post('/challenges/{challenge}/restart', [ChallengeController::class, 'restart'])->name('challenges.restart');
     Route::delete('/challenges/{challenge}/destroy', [ChallengeController::class, 'destroy'])->name('challenges.destroy');
+    // ユーザープロフィール画面
+    Route::get('/{user}/mypage', [UserController::class, 'index'])->name('mypage');
 });
 
 require __DIR__.'/auth.php';
@@ -35,10 +37,6 @@ require __DIR__.'/auth.php';
 Route::get('/progress', function () {
     return view('progress');
 })->name('progress');
-
-Route::get('/mypage', function () {
-    return view('mypage');
-})->name('mypage');
 Route::get('/post-show', function () {
     return view('post-show');
 })->name('post-show');

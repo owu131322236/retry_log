@@ -108,7 +108,7 @@
     ];
     @endphp
 
-    <div class="mt-10 mx-10">
+    <div class="mt-5 mx-10">
         <h2 class="text-2xl font-bold text-gray-800 m-5">進行中のチャレンジ</h2>
         <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[100px]"></div>
         <p class="text-sm text-gray-500 m-5">続けているチャレンジがここに表示されます。ボタンを押して今日の成功を記録しましょう！</p>
