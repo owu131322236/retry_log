@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Challenge;
+use App\Models\User;
 use App\Services\ChallengeService;
+use App\Services\ChallengeProgressService;
 use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
@@ -11,9 +13,11 @@ class ChallengeController extends Controller
      * Display a listing of the resource.
      */
     protected $challengeService;
-    public function __construct(ChallengeService $challengeService)
+    protected $challengeProgressService;
+    public function __construct(ChallengeService $challengeService, ChallengeProgressService $challengeProgressService)
     {
         $this->challengeService = $challengeService;
+        $this->challengeProgressService = $challengeProgressService;
     }
     public function index()
     {
@@ -135,6 +139,30 @@ class ChallengeController extends Controller
         return redirect()
             ->route('challenges')
             ->with('success', 'チャレンジが削除されました');
+    }
+    public function progress(User $user)
+    {
+        $userId = $user->id;
+        $progressData = [];
+        $modes = ['1w', '1m', '6m', '1y'];
+        foreach($modes as $mode){
+            //統計データを取得
+            $data = $this->challengeProgressService->calculateProgress($userId, $mode);
+            $progressData[$mode] = $data;
+            //表示用データ
+            $challengesCounts[$mode] = $data['challenges']->count();
+            $completedChallengesCounts[$mode] = $data['challenges']->filter(function($challenge){
+                return $challenge->state === 'completed';
+            })->count();
+            //詳細データを取得
+            $detailDates = $this->challengeProgressService->calculateProgressDetail($userId, $mode);
+            
+            $progressDetailData[$mode] = $detailDates;
+            
+        }
+        $ongoingChallenges = $this->challengeService->getUserOngoingChallenges(auth()->id(), 20, true);
+        $endedChallenges = $this->challengeService->getUserEndedChallenges(auth()->id(), 20, true);
+        return view('progress', compact('user','progressData','challengesCounts','completedChallengesCounts','progressDetailData','modes','ongoingChallenges','endedChallenges'));
     }
     
 }

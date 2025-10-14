@@ -18,10 +18,8 @@ class ChallengeService
     public function getUserOngoingChallenges(int $userId, int $limit = 20, $usePaginate = false)
     {
             $query = $this->getUserChallenges($userId)
-                ->where(function($query){
-                    $query->where('state', 'not_started')
-                      ->orWhere('state', 'in_progress');
-            });
+                    ->whereIn('state', ['not_started', 'in_progress'])
+                    ->distinct(); 
             return $usePaginate 
                 ? $query->take($limit)->cursorPaginate($limit) 
                 : $query->take($limit)->get();
@@ -29,11 +27,7 @@ class ChallengeService
     public function getUserEndedChallenges(int $userId, int $limit = 20, $usePaginate = false)
     {
         $query = $this->getUserChallenges($userId)
-            ->where(function($query){
-                $query->where('state', 'failed')
-                        ->orWhere('state', 'interrupted')
-                        ->orWhere('state', 'completed');
-            });
+            ->whereIn('state', ['failed', 'interrupted', 'completed']);
             return $usePaginate 
                 ? $query->cursorPaginate($limit) 
                 : $query->take($limit)->get();

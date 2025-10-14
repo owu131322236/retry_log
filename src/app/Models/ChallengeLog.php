@@ -22,7 +22,7 @@ class ChallengeLog extends Model
     }
     public function challengeStatus()
     {
-        return $this->belongsTo(ChallengeStatus::class);
+        return $this->belongsTo(ChallengeStatus::class,'status_id');
     }
     public function posts()
     {
