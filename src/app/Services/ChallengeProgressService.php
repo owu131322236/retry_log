@@ -11,36 +11,27 @@ class ChallengeProgressService
 {
     public function calculateProgress($userId, $mode = '1w')
     {
-        $today = Carbon::today();
-        $start = match ($mode) {
-            '1m' => $today->copy()->subMonth(),
-            '6m' => $today->copy()->subMonths(6),
-            '1y' => $today->copy()->subYear(),
-            default => $today->copy()->subWeek(),
-        };
+        $today = Carbon::today()->endOfDay();
+        $periods = $this->splitPeriod($today, $mode);
+        $start = $periods->first()['start'];
+        $end   = $periods->last()['end'];
         $challenges = Challenge::where('user_id', $userId)
-            ->where(function ($query) use ($start, $today) {
-                $query
-                    ->whereBetween('start_date', [$start, $today]) //開始が期間内
-                    ->orWhere(function ($query2) use ($start, $today) {
-                        $query2->where('start_date', '<=', $start) //開始が過去
-                            ->where(function ($query3) use ($today) {
-                                $query3->where(function ($q) use ($today) {
-                                    $q->whereNull('end_date')
-                                        ->orWhere('end_date', '>=', $today);
-                                });
-                            });
+            ->where(function ($q) use ($start, $end) {
+                $q->where('start_date', '<=', $end)
+                    ->where(function ($q2) use ($start) {
+                        $q2->whereNull('end_date')
+                            ->orWhere('end_date', '>=', $start);
                     });
             })
             ->get();
         $logs = ChallengeLog::with('challengeStatus')
             ->whereIn('challenge_id', $challenges->pluck('id')) //pluckでidだけの配列を取得
-            ->whereBetween('logged_at', [$start, $today])
+            ->whereBetween('logged_at', [$start, $end])
             ->get();
-        $expectedTotal = $challenges->sum(function ($challenge) use ($start, $today) {
+        $expectedTotal = $challenges->sum(function ($challenge) use ($start, $end) {
             $goal = $challenge->frequency_goal ?? 1;
             $type = $challenge->frequency_type->value;
-            $days = $start->copy()->diffInDays($today) + 1;
+            $days = $start->copy()->diffInDays($end) + 1;
             return match ($type) {
                 'daily' => (float)($days * $goal),
                 'weekly' => (float)(($days / 7) * $goal),
@@ -51,8 +42,9 @@ class ChallengeProgressService
         $successCount = $logs->filter(function ($log) {
             return $log->challengeStatus?->name === 'success';
         })->count();
+        dump($logs,$successCount);
         $achievementRate = $expectedTotal > 0 ? $successCount / $expectedTotal : 0;
-        
+        // dump($logs, $successCount);
         // $groupKey = match($mode){
         //     '1w' => 'Y-m-d',
         //     '1m' => 'Y-m-W', 
@@ -60,11 +52,12 @@ class ChallengeProgressService
         //     '1y' => 'Y-m',
         //     default => 'Y-m-d',
         // };
-        
+
         return collect([
             'mode' => $mode,
             'start' => $start->toDateString(),
             'end' => $today->toDateString(),
+            'logs' => $logs,
             'expected_total' => $expectedTotal,
             'success_total' => $successCount,
             'challenges' => $challenges,
@@ -73,48 +66,54 @@ class ChallengeProgressService
     }
     public function calculateProgressDetail($userId, $mode = '1w')
     {
-        $today = Carbon::today();
+        $today = Carbon::today()->endOfDay();
         $end = $today;
         $dataDetail = collect();
         $periods = $this->splitPeriod($end, $mode);
-        $challenges = Challenge::where('user_id', $userId)->get();
+        $entireStart =  $periods->first()['start'];
+        $entireEnd =  $periods->last()['end'];
 
         foreach ($periods as $period) {
             $start = $period['start']->copy()->startOfDay();
             $end = $period['end']->copy()->endOfDay();
-
-            $logs = ChallengeLog::with('challengeStatus')
-                ->whereBetween('logged_at', [
-                    $start->copy()->startOfDay()->toDateTimeString(),
-                    $end->copy()->endOfDay()->toDateTimeString(),])
-                ->whereIn('challenge_id', $challenges->pluck('id'))
+            $challenges = Challenge::where('user_id', $userId)
+                ->where(function ($q) use ($entireStart, $entireEnd) {
+                    $q->where('start_date', '<=', $entireEnd)
+                        ->where(function ($q2) use ($entireStart) {
+                            $q2->whereNull('end_date')
+                                ->orWhere('end_date', '>=', $entireStart);
+                        });
+                })
                 ->get();
-
-            $successCount = $logs->filter(fn($log) => $log->challengeStatus?->name === 'success')->count();
-
+            $logs = ChallengeLog::with('challengeStatus')
+                ->whereIn('challenge_id', $challenges->pluck('id'))
+                ->whereBetween('logged_at', [$start, $end])
+                ->get();
+            $successCount = $logs->filter(function ($log): bool {
+                return $log->challengeStatus?->name === 'success';
+            })->count();
             $expectedTotal = $challenges->sum(function ($ch) use ($start, $end) {
                 $goal = $ch->frequency_goal ?? 1;
-                $type = $ch->frequency_type;
+                $type = $ch->frequency_type->value;
                 $days = $start->diffInDays($end) + 1; //合計日数
-
                 return match ($type) {
                     'daily' => $days * $goal,
                     'weekly' => ceil($days / 7) * $goal,
                     'monthly' => ceil($days / 30) * $goal,
                     default => 0,
                 };
-            });
-
+            });        
             $achievementRate = $expectedTotal > 0
                 ? round(($successCount / $expectedTotal) * 100, 2)
                 : 0;
             $dataDetail->push([
-                    'periods' => $periods,
-                    'start' => $start,
-                    'end' => $end,
-                    'success_total' => $successCount,
-                    'expected_total' => $expectedTotal,
-                    'achievement_rate' => $achievementRate,
+                'period' => $period,
+                'start' => $start,
+                'end' => $end,
+                'logs' => $logs,
+                'success_total' => $successCount,
+                'expected_total' => $expectedTotal,
+                'achievement_rate' => $achievementRate,
             ]);
         }
         return $dataDetail;
@@ -148,7 +147,7 @@ class ChallengeProgressService
             case '6m':
                 $start = $end->copy()->subMonths(5)->startOfMonth();
                 $currentStart = $start->copy();
-                while ($currentStart->lte($end)) {
+                while ($periods->count() < 6) {
                     $periods->push([
                         'start' => $currentStart->copy()->startOfDay(),
                         'end' => $currentStart->copy()->endOfMonth()->endOfDay(),
@@ -157,9 +156,9 @@ class ChallengeProgressService
                 }
                 break;
             case '1y':
-                $start = $end->copy()->subMonths(11)->startOfMonth();
+                $start = $end->copy()->subYear()->addMonth()->startOfMonth();
                 $currentStart = $start->copy();
-                while ($currentStart->lte($end)) {
+                while ($periods->count() < 12) {
                     $periods->push([
                         'start' => $currentStart->copy()->startOfDay(),
                         'end' => $currentStart->copy()->endOfMonth()->endOfDay(),
@@ -169,22 +168,17 @@ class ChallengeProgressService
                 break;
         }
         return $periods;
+        
     }
+    
 
-    public function getRetryRate($userId, $mode = '1w')
+    public function getRetryRate($userId)
     {
-        $today = Carbon::today();
-        $start = match ($mode) {
-            '1m' => $today->copy()->subMonth(),
-            '6m' => $today->copy()->subMonths(6),
-            '1y' => $today->copy()->subYear(),
-            default => $today->copy()->subWeek(),
-        };
         $logs = ChallengeLog::with(['challengeStatus', 'challenge'])
             ->whereHas('challenge', function ($query) use ($userId) {
                 $query->where('user_id', $userId);
             })
-            ->whereBetween('logged_at', [$start, $today])
+            ->orderByRaw('IFNULL(challenge_logs.logged_at, challenge_logs.created_at) ASC')
             ->get();
         $retryCount = 0;
         $failCount = 0;
@@ -192,7 +186,11 @@ class ChallengeProgressService
             for ($i = 0; $i < $challengeLogs->count() - 1; $i++) {
                 $currentChallengeLog = $challengeLogs->get($i);
                 $nextChallengeLog = $challengeLogs->get($i + 1);
-                if ($currentChallengeLog->challengeStatus?->name === 'failed') {
+                $test = $currentChallengeLog->challengeStatus?->name;
+                if (
+                    $currentChallengeLog->challengeStatus?->name === 'fail' ||
+                    $currentChallengeLog->challengeStatus?->name === 'skipped'
+                ) {
                     $failCount++;
                     if ($nextChallengeLog->challengeStatus?->name === 'success') {
                         $retryCount++;
@@ -202,9 +200,6 @@ class ChallengeProgressService
         });
         $retryRate = $failCount > 0 ? round($retryCount / $failCount, 2) : 0;
         return collect([
-            'mode' => $mode,
-            'start' => $start->toDateString(),
-            'end' => $today->toDateString(),
             'retry_total' => $retryCount,
             'fail_total' => $failCount,
             'retry_rate' => $retryRate,

@@ -44,7 +44,7 @@ class Challenge extends Model
     }
     public function challengeLogs()
     {
-        return $this->hasMany(ChallengeLog::class);
+        return $this->hasMany(ChallengeLog::class,'challenge_id');
     }
     public function reactions()
     {

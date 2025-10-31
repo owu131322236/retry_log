@@ -18,7 +18,7 @@ class ChallengeLog extends Model
 
     public function challenge()
     {
-        return $this->belongsTo(Challenge::class);
+        return $this->belongsTo(Challenge::class,'challenge_id');
     }
     public function challengeStatus()
     {

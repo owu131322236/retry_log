@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="flex bg-black text-center justify-center items-center tracking-widest text-white text-sm h-12">
+    <div class="fixed flex bg-black text-center justify-center items-center tracking-widest text-white text-sm h-12 w-full z-10">
         RetryLogはまだまだ成長中！新しい機能や改善を随時追加しています✨　ぜひ触って体験して、フィードバックも送ってください！
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdsxBtpULdzC-1T4l4MIvKiRHaWNII4NSnWUiESX8Bl8b0BMQ/viewform?usp=header" target="_blank" class="text-xs underline underline-offset-2 hover:text-gray-300 ml-2">フィードバックを送る →
 
         </a>
     </div>
     <!-- </header>  -->
-    <div class="flex flex-col justify-center items-center py-5">
+    <div class="flex flex-col justify-center items-center mt-10 py-5">
 
         <div
             class="px-8 max-w-[1100px] mx-auto my-5 bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]"
@@ -15,7 +15,7 @@
                 <p class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-6 pb-6">Welcome to RETRY LOG</p>
                 <p class="text-white text-sm font-normal leading-normal tracking-[0.015em] px-6 pb-6">後ろを向いた日があっても、それは終わりじゃない。今日またここに来てくれたこと、それが一歩です。あなたの“続けたい”を、ここで分かち合いましょう。</p>
             </div>
-            <Button id="open" class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 shadow-lg hover:bg-white/90 hover:scale-105 transition-all">
+            <Button id="open" class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 shadow-lg hover:scale-105 transition-all">
                 ＋つぶやきを投稿する
             </Button>
 
@@ -44,22 +44,38 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-around p-4 my-5">
-        <x-profile-card />
-        <div class="layout-content-container flex flex-col w-2/3">
-            <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[50px]"></div>
-
+    <div class="flex flex-wrap justify-around p-4 my-5">
+        <x-profile-card
+            :user="$profileUser"
+            :isOwnProfile="$isOwnProfile"
+            :isFollowing="$isFollowing"
+            :retryRate="$retryRate" />
+        <div class="layout-content-container flex flex-col items-center w-2/3">
+            <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[100px]"></div>
             <h2 class="text-[#0d0d1c] tracking-light text-[28px] font-bold leading-tight text-left py-3">タイムライン</h2>
-            <!-- post-1 -->
-            <div id="content" class="flex flex-col m-5">
-                @foreach ($timeline as $post)
-                    <x-posts.post-card :post="$post" />
-                @endforeach
+            
+            <div class="flex w-full px-4 py-5 justify-center">
+                <div id="postSelector" class="relative flex h-10 w-3/5 w-full items-center justify-center rounded-xl bg-gray-200 p-1">
+                    <div id="postIndicator" class="absolute top-1/2 left-2 h-4/5 w-1/2 rounded-xl bg-blue-600 transition-all duration-300 -translate-y-1/2"></div>
+                    <button onclick="loadPosts('success')" id="moon" class="relative w-2/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">moon</button>
+                    <button onclick="loadPosts('fail')" id="sun" class="relative w-1/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">sun</button>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 text-center m-1">「Moon」モードは穏やかで静かな投稿を、「Sun」モードは元気で前向きな投稿を表示します。</p>
+            <div id="posts" class="flex flex-col m-5">
+                @include('partials.timeline-posts', ['timeline' => $timeline])
             </div>
         </div>
     </div>
-    </div>
     <script>
+        async function loadPosts(postType){
+            const responce = await fetch(`/timeline/${postType}`);
+            const html = await responce.text();
+            document.getElementById('posts').innerHTML = html;
+
+            if (typeof window.initFormEvents === 'function') window.initFormEvents();
+            if (typeof window.initReactionsEvents === 'function') window.initReactionsEvents();
+        }
         const openBtn = document.getElementById("open");
         const modal = document.getElementById("modal");
         const closeBtn = document.getElementById("close");
@@ -70,15 +86,38 @@
         closeBtn.addEventListener("click", () => {
             modal.classList.add("hidden");
         });
-        addHabitBtn.addEventListener("click", () => {
-            addHabitBtn.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                <path fill="currentColor" d="m9.55 15.15l8.475-8.475q.3-.3.7-.3t.7.3t.3.713t-.3.712l-9.175 9.2q-.3.3-.7.3t-.7-.3L4.55 13q-.3-.3-.288-.712t.313-.713t.713-.3t.712.3z" />
-            </svg>
-            記録済み`;
-            addHabitBtn.classList.remove("hover:bg-gray-800");
-            addHabitBtn.classList.add("bg-teal-500", "cursor-not-allowed");
-            addHabitBtn.disabled = true;
+        //ポストの表示変更
+        const postButtons = document.querySelectorAll("#postSelector button");
+        const postIndicator = document.getElementById("postIndicator");
+        function postModeIndicator(btn){
+            const offsetLeft = btn.offsetLeft;
+            const offsetWidth = btn.offsetWidth;
+            const target =btn.dataset.target;
+            postIndicator.style.left = offsetLeft + 'px';
+            postIndicator.style.width = offsetWidth + 'px';
+            if(target==='moon'){
+                postIndicator.classList.remove('bg-[#FF8C1A]');
+                postIndicator.classList.add('bg-blue-600')
+            }
+            else if(target==='sun'){
+                postIndicator.classList.remove('bg-blue-600');
+                postIndicator.classList.add('bg-[#FF8C1A]')
+            }
+
+        }
+        postModeIndicator(postButtons[0]);
+        postButtons[0].classList.add('text-white', 'font-bold');
+        postButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const target = button.dataset.target;
+                postModeIndicator(button);
+                postButtons.forEach(button => {
+                    button.classList.remove('text-white','font-bold');
+                    button.classList.add('text-gray-500');
+                });
+                button.classList.remove('text-gray-500');
+                button.classList.add('text-white', 'font-bold');
+            });
         });
     </script>
 </x-app-layout>
