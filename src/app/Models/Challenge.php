@@ -20,6 +20,7 @@ class Challenge extends Model
         'frequency_goal',
         'current_steak',
         'max_steak',
+        'achievement_rate',
     ];
     protected $casts = [
         'frequency_type' => \App\Enums\ChallengeFrequency::class,
@@ -28,6 +29,7 @@ class Challenge extends Model
         'end_date' => 'datetime',
         'current_steak' => 'integer',
         'max_steak' => 'integer',
+        'achievement_rate' => 'integer'
     ];
     protected static function booted()
     {

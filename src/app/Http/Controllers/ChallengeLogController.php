@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Challenge;
 use App\Models\ChallengeLog;
 use App\Models\ChallengeStatus;
+use App\Services\ChallengeService;
 use Illuminate\Http\Request;
 
 class ChallengeLogController extends Controller
@@ -13,9 +14,11 @@ class ChallengeLogController extends Controller
      * Display a listing of the resource.
      */
     protected $challengeLog;
-    public function __construct(ChallengeLog $challengeLog)
+    protected $challengeService;
+    public function __construct(ChallengeLog $challengeLog, ChallengeService $challengeService)
     {
         $this->challengeLog = $challengeLog;
+        $this->challengeService = $challengeService;
     }
     public function index()
     {
@@ -33,7 +36,7 @@ class ChallengeLogController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Challenge $challenge)
+    public function store(Request $request, Challenge $challenge, ChallengeService $challengeService)
     {
         $validated = $request->validate([
             'challenge_id' => 'required|exists:challenges,id',
@@ -44,9 +47,9 @@ class ChallengeLogController extends Controller
         $challenge = Challenge::where('id', $validated['challenge_id'])
             ->where('user_id', $userId)
             ->firstOrFail();
-            
+
         $status = ChallengeStatus::where('name', $request->status)->firstOrFail();
-        
+
         $alreadyLogged = ChallengeLog::where('challenge_id', $challenge->id)
             ->whereDate('logged_at', now())
             ->exists();
@@ -61,7 +64,13 @@ class ChallengeLogController extends Controller
             'logged_at' => $validated['logged_at'] ?? now(),
         ]);
         $challengeLog->save();
-        
+
+        // チャレンジの保存
+        $rate = $challengeService->calculateAcheivementRate($challenge);
+
+        $challenge->achievement_rate = round($rate * 100, 2);
+        $challenge->save();
+
         return redirect()->route('challenges')->with('success', 'チャレンジログが記録されました。');
     }
 

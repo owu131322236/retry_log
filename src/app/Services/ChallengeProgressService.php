@@ -42,7 +42,6 @@ class ChallengeProgressService
         $successCount = $logs->filter(function ($log) {
             return $log->challengeStatus?->name === 'success';
         })->count();
-        dump($logs,$successCount);
         $achievementRate = $expectedTotal > 0 ? $successCount / $expectedTotal : 0;
         // dump($logs, $successCount);
         // $groupKey = match($mode){

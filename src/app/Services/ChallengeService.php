@@ -49,10 +49,10 @@ class ChallengeService
 
 
     //Challengeの達成率を計算するメソッド
-    private function calculateAcheivementRate(Challenge $challenge){
+    public function calculateAcheivementRate(Challenge $challenge){
         $today = Carbon::today();
         $start = $challenge->start_date;
-        $logs = ChallengeLog::with('status')
+        $logs = ChallengeLog::with('challengeStatus')
             ->where('challenge_id', $challenge->id)
             ->whereBetween('logged_at', [$start, $today])
             ->get();
@@ -62,9 +62,9 @@ class ChallengeService
                 'monthly' => ceil(($start->diffInDays($today) + 1) / 30),
                 default => 0,
             };
-            $expectedTotal *= ($challenge->frequency_goal ?? 1); //ここで計算
+            $expectedTotal *= ($challenge->frequency_goal ?? 1);
             $successCount = $logs->filter(function($log){
-                return $log->status->name === 'success';
+                return $log->challengeStatus->name === 'success';
             })->count();
             $achievementRate = $expectedTotal > 0 ? $successCount / $expectedTotal : 0;
             return $achievementRate;
