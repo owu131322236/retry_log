@@ -156,7 +156,6 @@ class ChallengeController extends Controller
             })->count();
             //詳細データを取得
             $detailDates = $this->challengeProgressService->calculateProgressDetail($userId, $mode);
-            
             $progressDetailData[$mode] = $detailDates;
             
         }

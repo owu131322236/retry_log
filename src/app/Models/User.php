@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         //新しく追加したフィールド
-        'image',
+        'icon',
         'bio',
     ];
     
@@ -93,4 +93,27 @@ class User extends Authenticatable
             'follower_id'  // 相手のUserのIDが入るカラム
         );
     }
+    public function follow(User $user)
+    {
+        if ($this->id !== $user->id && !$this->isFollowing($user)) {
+            $this->followings()->attach($user->id);
+        }
+    }
+    public function unfollow(User $user)
+    {
+        $this->followings()->detach($user->id);
+    }
+    public function isFollowing(User $user): bool
+    {
+        return $this->followings()->where('followee_id', $user->id)->exists();
+    }
+    public function icon()
+{
+    return $this->belongsTo(Image::class, 'icon_id');
+}
+
+public function background()
+{
+    return $this->belongsTo(Image::class, 'background_id');
+}
 }

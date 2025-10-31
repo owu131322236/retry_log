@@ -17,11 +17,8 @@ class CommentsTableSeeder extends Seeder
         $posts = Post::all();
 
         foreach($posts as $post){
-            $comments = Comment::factory()
-            ->count(rand(0,10))
-            ->create([
-                'post_id' => $post->id,
-            ]);
+            $comments = Comment::factory(50)
+            ->create();
         }
     }
 }

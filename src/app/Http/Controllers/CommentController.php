@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class ReactionController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,23 @@ class ReactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $parentId = null;
+        if ($request->target_type === Comment::class) {
+            $parentId = $request->target_id;
+        }
+        $request->validate([
+            'target_type' => ['required'],
+            'target_id' => ['required'],
+            'content' => ['required', 'string', 'max:300'],
+        ]);
+        Comment::create([
+            'user_id' => auth()->user()->id,
+            'target_type' =>$request->target_type,
+            'target_id' =>$request->target_id,
+            'parent_id' =>$parentId,
+            'content' =>$request->content,
+        ]);
+        return redirect()->back()->with('success', '返信を投稿しました！');
     }
 
     /**

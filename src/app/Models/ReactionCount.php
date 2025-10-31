@@ -9,11 +9,13 @@ class ReactionCount extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $primaryKey = null;
     protected $guarded = [];
 
     protected $casts = [
         'count' => 'integer',
-        'target_id' =>'integer'
+        'target_id' => 'integer'
     ];
 
     public function reactionType()

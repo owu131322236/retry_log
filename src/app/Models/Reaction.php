@@ -14,6 +14,9 @@ class Reaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'target_type',
+        'target_id',
         'reaction_type_id',
     ];
 
@@ -47,7 +50,10 @@ class Reaction extends Model
             if ($countRecord) {
                 $countRecord->decrement('count');
                 if ($countRecord->count <= 0) {
-                    $countRecord->delete();
+                    ReactionCount::where('target_type', $reaction->target_type)
+                        ->where('target_id', $reaction->target_id)
+                        ->where('reaction_type_id', $reaction->reaction_type_id)
+                        ->delete();
                 }
             }
         });
