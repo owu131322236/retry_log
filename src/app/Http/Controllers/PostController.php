@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostType;
 use App\Services\PostService;
+use App\Services\ReactionService;
+use App\Services\UserService;
+use App\Services\ChallengeProgressService;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -11,10 +15,30 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $userService;
     protected $postService;
-    public function __construct() {}
-    public function index() {}
+    protected $reactionService;
+    protected $challengeProgressService;
 
+    public function __construct(UserService $userService, PostService $postService, ReactionService $reactionService, ChallengeProgressService $challengeProgressService)
+    {
+        $this->userService = $userService;
+        $this->postService = $postService;
+        $this->reactionService = $reactionService;
+        $this->challengeProgressService = $challengeProgressService;
+    }
+    public function index(Post $post)
+    {
+        //profile-card用の処理
+        $currentUser = auth()->user();
+        $profileUserId = $post->user_id;
+        $profileUser = $this->userService->getUserProfile($profileUserId);
+        $context = $this->userService->getProfileContext($currentUser, $profileUser);
+        $retryRate = round($this->challengeProgressService->getRetryRate($profileUserId)->get('retry_rate') * 100);
+        //post用の処理
+        $post = $this->postService->getPostDetail($post->id);
+        return view('post-show', ['post' => $post, 'profileUser' => $profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate]);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -30,14 +54,34 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'content' => 'required|string|max:200',
-            'post_type_id' => 'required|integer|exists:post_types,id',
+            'post_type' => 'required|string|exists:post_types,name',
         ]);
+        $post_type = PostType::where('name', $request->post_type)->firstOrFail();
         $post = Post::create([
             'user_id' => auth()->id(),
             'content' => $validated['content'],
-            'post_type_id' => $validated['post_type_id'],
+            'post_type_id' => $post_type->id,
         ]);
+        $post->save();
+        return redirect()->back()->with('success', 'ポストが投稿されました');
     }
+
+    public function toggleReaction(Request $request, ReactionService $reactionService)
+    {
+        $validated = $request->validate([
+            'target_type' => 'required|string',
+            'target_id' => 'required|integer',
+            'reaction_type_id' => 'required|integer|exists:reaction_types,id',
+        ]);
+        $reactionService->toggleReaction(
+            $validated['target_type'],
+            $validated['target_id'],
+            $validated['reaction_type_id']
+        );
+
+        return back();
+    }
+
 
     /**
      * Display the specified resource.

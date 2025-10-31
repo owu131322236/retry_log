@@ -11,9 +11,10 @@
             <div>
                 <h3 class="text-lg font-semibold mb-4">サイトマップ</h3>
                 <ul class="space-y-2">
-                    <li><a class="text-gray-500 hover:text-gray-900" href="#">ホーム</a></li>
-                    <li><a class="text-gray-500 hover:text-gray-900" href="#">チャレンジ</a></li>
-                    <li><a class="text-gray-500 hover:text-gray-900" href="#">プロフィール</a></li>
+                    <li><a class="text-gray-500 hover:text-gray-900" href="{{ route('timeline') }}">タイムライン</a></li>
+                    <li><a class="text-gray-500 hover:text-gray-900" href="{{ route('challenges') }}">チャレンジ</a></li>
+                    <li><a class="text-gray-500 hover:text-gray-900" href="{{ route('progress',['user' => auth()->user()]) }}"">進捗</a></li>
+                    <li><a class="text-gray-500 hover:text-gray-900" href="{{ route('mypage',[auth()->user()])}}">プロフィール</a></li>
                 </ul>
             </div>
             <div>

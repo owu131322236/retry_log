@@ -16,7 +16,21 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
-
+        <div>
+            <x-input-label for="icon_id" :value="__('プロフィールアイコン')" />
+            <div class="flex gap-5">
+                @php
+                use App\Models\Image;
+                $icons = Image::where('usage', 'icon')->get();
+                @endphp
+                @foreach($icons as $icon)
+                        <label class="cursor-pointer">
+                            <input type="radio" name="icon_id" value="{{ $icon->id }}" class="hidden peer" @checked($icon->id == auth()->user()->icon_id)/>
+                            <img src="{{ asset($icon->path) }}" class="w-11 h-11 rounded-full border-2 peer-checked:border-blue-500">
+                        </label>
+                @endforeach
+            </div>
+        </div>
         <div>
             <x-input-label for="name" :value="__('名前')" />
             <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
@@ -28,39 +42,37 @@
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Your email address is unverified.') }}
+            <div>
+                <p class="text-sm mt-2 text-gray-800">
+                    {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
+                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        {{ __('Click here to re-send the verification email.') }}
+                    </button>
+                </p>
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
+                @if (session('status') === 'verification-link-sent')
+                <p class="mt-2 font-medium text-sm text-green-600">
+                    {{ __('A new verification link has been sent to your email address.') }}
+                </p>
+                @endif
+            </div>
             @endif
         </div>
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
-            <x-text-area name="bio" value="{{ old('bio', $user->bio) }}"/>
+            <x-text-area name="bio" value="{{ old('bio', $user->bio) }}" />
         </div>
-
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('保存') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('保存されました') }}</p>
+            <p
+                x-data="{ show: true }"
+                x-show="show"
+                x-transition
+                x-init="setTimeout(() => show = false, 2000)"
+                class="text-sm text-gray-600">{{ __('保存されました') }}</p>
             @endif
         </div>
     </form>

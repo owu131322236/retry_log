@@ -43,7 +43,7 @@ class Post extends Model
     }
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class,'target');
     }
     public function postType()
     {
@@ -56,11 +56,20 @@ class Post extends Model
 
     public function reactionCounts()
     {
-        return $this->morphMany(ReactionCount::class,'target');
+        return $this->morphMany(ReactionCount::class, 'target');
+    }
+    public function userReaction()
+    {
+        return $this->morphMany(Reaction::class, 'target')
+            ->where('user_id', auth()->id());
     }
 
     public function scopeType($query, int $postTypeId)
-{
-    return $query->where('post_type_id', $postTypeId);
-}
+    {
+        return $query->where('post_type_id', $postTypeId);
+    }
+    public function getAvailableReactionsAttribute() //関数めいはavailable_reactions
+    {
+        return $this->postType?->reactionTypes ?? collect();
+    }
 }

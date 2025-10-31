@@ -9,8 +9,12 @@ class UserService
 {
     public function getUserProfile($userId)
     {
-        return User::select('id', 'name', 'image', 'bio')
-            ->withCount(['posts', 'challenges', 'followers', 'followings'])
+        return User::select('id', 'name', 'icon_id','background_id', 'bio')
+            ->withCount([
+             'posts',
+             'challenges' => function($query){$query->whereIn('state', ['not_started', 'in_progress']);},
+             'followers', 
+             'followings'])
             ->find($userId);
         // 使用時はControllerにcurrentUserの値が必要！
         // getProfileContextの使用も必要！

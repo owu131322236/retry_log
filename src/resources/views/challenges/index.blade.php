@@ -6,7 +6,7 @@
                 <p class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-6 pb-6">Start Your New Challenge</p>
                 <p class="text-white text-sm font-normal leading-normal tracking-[0.015em] px-6 pb-6">何度続かなくても、また始めようとする気持ちがあるなら、それはあなたの強さです。ここは、何度でも始められる場所。今日のあなたの新しい挑戦を、静かに残していきましょう。</p>
             </div>
-            <Button id="open" class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 shadow-lg hover:bg-white/90">
+            <Button id="open" class="p-5  h-full whitespace-nowrap rounded-2xl bg-white text-red-700 shadow-lg hover:scale-105 transition-all">
                 ＋ 新しいチャレンジを始める
             </Button>
         </div>
