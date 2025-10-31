@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('image')->nullable();
+            $table->foreignId('icon_id')->nullable()->constrained('images')->onDelete('cascade');
+            $table->foreignId('background_id')->nullable()->constrained('images')->onDelete('cascade');
             $table->string('bio')->nullable();
             $table->integer('points')->default(0);
             $table->softDeletes();
@@ -25,7 +26,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['image', 'bio', 'points']);
+            $table->dropForeign(['icon_id']);
+            $table->dropForeign(['background_id']);
+
+            $table->dropColumn(['icon_id','background_id', 'bio', 'points']);
             $table->dropSoftDeletes();
         });
     }

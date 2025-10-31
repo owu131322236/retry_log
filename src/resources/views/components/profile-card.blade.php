@@ -1,11 +1,11 @@
-
-@props(['user', 'isOwnProfile' =>false, 'isFollowing'=>false])
-<div class="layout-content-container flex flex-col bg-white w-80 h-fit rounded-2xl shadow-lg">
+@props(['user', 'isOwnProfile' =>false, 'isFollowing'=>false, 'retryRate'])
+<div class="layout-content-container flex flex-col bg-white w-80 h-fit rounded-2xl shadow-lg hover:border">
     <div class="flex p-4 @container">
         <div class="flex w-full flex-col gap-4 items-center">
-            <div
-                class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCawObi8PcqLetxAHy7IO2LsQXlpZK45ijAFzpZOLZ1TdOnbGtfEtp3ekTMpc-uq2fsRYwpbQsDjwLmcmAA96iFGYAZztTyvpzAUyb-834qLjfQwHR8hBW0H7Zq1lTv6m6CCWrszs22zLq7qFmdVtG56JvrxkB-puAP2mYvwMHjSSFuq0ygDCBzjKnYS_fFGwZJz0DD7wEL8aELqjc4K1565YwgcE_hM7x7sYgHu7i8C66_mqDb-Geel6wSVJn8dGf1Snq1opqLi1A");'></div>
+        <img
+            src="{{ auth()->user()->icon->path ?? asset('images/icons/default.jpg') }}"
+            alt="User Icon"
+            class="w-32 h-32 rounded-full border object-cover"/>
             <div class="flex flex-col items-center justify-center justify-center">
                 <div class="flex gap-1 items-center py-1">
                     <p class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center">{{$user->name}}</p>
@@ -14,7 +14,7 @@
                     </svg>
                 </div>
 
-                <p class="text-[#49499c] text-base font-normal leading-normal text-center">@emily_carter</p>
+                <!-- <p class="text-[#49499c] text-base font-normal leading-normal text-center">@emily_carter</p> -->
             </div>
             <div class="flex gap-3 items-center py-1">
                 <div class="flex items-center hover:underline">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="flex min-w-[111px] flex-1 basis-[fit-content] flex-col gap-2 rounded-lg border border-[#cecee8] p-3 items-center text-center">
-            <p class="text-[#0d0d1c] tracking-light text-2xl font-bold leading-tight">85%</p>
+            <p class="text-[#0d0d1c] tracking-light text-2xl font-bold leading-tight">{{ $retryRate }}%</p>
             <div class="flex items-center gap-2">
                 <p class="text-[#49499c] text-sm font-normal leading-normal">立ち直り率</p>
             </div>
@@ -51,16 +51,23 @@
         </div>
     </div>
     @if($isOwnProfile)
-        <a href="{{ route('profile.edit') }}" class="w-full flex justify-center">
-            <button class="bg-primary text-white text-sm font-bold leading-normal tracking-[-0.015em] w-full py-2 px-4 m-4 rounded-full bg-black hover:bg-blue-600 hover:scale-105 transition">Edit Profile</button>
-        </a>
+    <a href="{{ route('profile.edit') }}" class="w-full flex justify-center">
+        <button class="bg-primary text-white text-sm font-bold leading-normal tracking-[-0.015em] w-full py-2 px-4 m-4 rounded-full bg-black hover:bg-blue-600 hover:scale-105 transition">Edit Profile</button>
+    </a>
     @elseif($isFollowing)
+    <form action="{{ route('unfollow',$user) }}" method="POST">
+        @csrf
+        @method('DELETE')
         <div class="w-full flex justify-center">
-            <button class="bg-primary text-white text-sm font-bold leading-normal tracking-[-0.015em] w-full py-2 px-4 m-4 rounded-full bg-black hover:bg-blue-600 hover:scale-105 transition">フォロー中</button>
+            <button class="bg-primary text-white text-sm font-bold leading-normal tracking-[-0.015em] w-full py-2 px-4 m-4 rounded-full bg-black hover:bg-blue-600 hover:scale-105 transition">フォロー解除</button>
         </div>
+    </form>
     @else
+    <form action="{{ route('follow',$user) }}" method="POST">
+        @csrf
         <div class="w-full flex justify-center">
             <button class="bg-primary text-white text-sm font-bold leading-normal tracking-[-0.015em] w-full py-2 px-4 m-4 rounded-full bg-black hover:bg-blue-600 hover:scale-105 transition">フォローする</button>
         </div>
+    </form>
     @endif
 </div>

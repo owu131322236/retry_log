@@ -11,8 +11,13 @@ class Comment extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'target_type',
+        'target_id',
+        'parent_id',
         'content',
     ];
+    
 
     protected static function booted()
     {
@@ -40,17 +45,6 @@ class Comment extends Model
     {
         return $this->belongsTo(Post::class);
     }
-
-    //カラムにはparent_comment_idのみがあるが、使い方によってはコメントを一気に取得できる
-    public function parent()
-    {
-        return $this->belongsTo(Comment::class, 'parent_comment_id');
-    }
-
-    public function replies()
-    {
-        return $this->hasMany(Comment::class, 'parent_comment_id');
-    }
     //リアクションの一覧画面
     public function reactions()
     {
@@ -60,5 +54,17 @@ class Comment extends Model
     public function reactionCounts()
     {
         return $this->morphMany(ReactionCount::class,'target');
+    }
+    public function target()
+    {
+        return $this->morphTo();  
+    }
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
     }
 }

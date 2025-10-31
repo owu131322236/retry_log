@@ -19,12 +19,24 @@ class CommentFactory extends Factory
      */
     public function definition(): array
     {
+        $targetType = $this->faker->randomElement([Post::class, Comment::class]);
+        $targetModel = $targetType::inRandomOrder()->first(); //緩衝材的な
+        if (!$targetModel) {
+            $targetType = Post::class;
+            $targetModel = Post::inRandomOrder()->first();
+        }
+        $targetId = $targetModel?->id;
+        $parentId = null;
+        if ($targetType === Comment::class) {
+            $parentId = Comment::inRandomOrder()->first()?->id;
+        }
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'post_id' => Post::inRandomOrder(),
-            'parent_comment_id' =>null,
+            'target_type' => $targetType,
+            'target_id' => $targetId,
+            'parent_id' => $parentId,
             'content' => $this->faker->sentence(),
-            'created_at' => $this->faker->dateTimeBetween('-1 year','now'),
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];
     }

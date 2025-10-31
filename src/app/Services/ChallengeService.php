@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class ChallengeService
 {
     public function getUserChallenges($userId)
-    {
+    {   
         return Challenge::with(['challengeLogs', 'challengeLogs.challengeStatus'])
             ->where('user_id', $userId)
             ->latest();
@@ -19,10 +19,24 @@ class ChallengeService
     {
             $query = $this->getUserChallenges($userId)
                     ->whereIn('state', ['not_started', 'in_progress'])
+                    ->withCount(['challengeLogs as is_recorded_today' => function ($q) {
+                        $q->whereDate('logged_at', Carbon::today());
+                    }])
+                    ->orderBy('is_recorded_today','asc')//昇順
                     ->distinct(); 
             return $usePaginate 
                 ? $query->take($limit)->cursorPaginate($limit) 
                 : $query->take($limit)->get();
+    }
+    public function getChallengesContext(Challenge $challenge)
+    {
+        $isRecoredToday = $challenge->challengeLogs()
+            ->whereDate('logged_at', Carbon::today())
+            ->exists();
+        return [
+            'isRecoredToday' => $isRecoredToday,
+        ];
+        
     }
     public function getUserEndedChallenges(int $userId, int $limit = 20, $usePaginate = false)
     {

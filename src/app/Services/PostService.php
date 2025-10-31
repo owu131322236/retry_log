@@ -3,22 +3,30 @@
 namespace App\Services;
 
 use App\Models\Post;
+use App\Services\ReactionService;
 
 class PostService
 {
     private function baseQuery()
     {
         return Post::with([
-            'user:id,name,image', 
+            'user:id,name,icon_id,background_id', 
             'reactions',          
-            'comments',           
+            'comments',  
+            'reactionCounts.reactionType', 
+            'userReaction.reactionType',
+            'postType',
+            'postType.reactionTypes'         
         ])
             ->withCount(['reactions', 'comments']) 
             ->select('id', 'user_id', 'content', 'updated_at', 'created_at', 'post_type_id');
     }
-    public function getTimelinePosts(int $limit = 20)
+    public function getTimelinePosts(string $postType, int $limit = 20)
     {
         return $this->baseQuery()
+            ->whereHas('postType',function($query)use($postType){
+                $query->where('name',$postType);
+            })
             ->latest('updated_at')
             ->take($limit)
             ->cursorPaginate($limit);
@@ -41,4 +49,12 @@ class PostService
             ->take($limit)
             ->cursorPaginate($limit);
     }
+    public function getPostDetail(int $postId)
+    {
+        return $this->baseQuery()
+            ->latest()
+            ->findOrFail($postId);
+    }
+
+    
 }

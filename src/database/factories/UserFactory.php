@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\ImageUsage;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -29,7 +31,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            'image' => $this->faker->imageUrl(200, 200, 'people'),
+            'icon_id' => Image::where('usage', ImageUsage::ICON->value)->inRandomOrder()->first(),
+            'background_id' => Image::where('usage', ImageUsage::BACKGROUND->value)->inRandomOrder()->first(),
             'bio'   => $this->faker->sentence(),
             'points'=> $this->faker->numberBetween(0, 500),
         ];

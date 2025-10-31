@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="flex flex-col justify-center items-center py-5">
+    <div class="flex flex-col justify-center items-center p-5">
         <div
             class="px-8 max-w-[1100px] mx-auto my-8 shadow-lg bg-center bg-no-repeat bg-cover flex justify-between items-center overflow-hidden bg-gradient-to-r from-green-600 from- via-emerald-600 via- to-teal-600 to- rounded-2xl @[480px]:rounded-xl min-h-[218px]">
             <div class="flex flex-col items-start justify-center">
@@ -9,54 +9,55 @@
         </div>
         <div class="gap-1 px-6 flex flex-1 justify-center w-full my-10">
             <!-- サイドのチャレンジ表示 -->
-            <div class="layout-content-container flex flex-col rounded-xl border border-xl bg-white w-fit h-fit p-5 min-w-[300px]">
+            <div class="layout-content-container flex flex-col rounded-xl border border-xl bg-white w-fit h-fit p-5 w-[25%] min-w-[300px]">
                 <h2 class="text-[#0d0d1c] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">最近のチャレンジ</h2>
                 <h3 class="text-[#0d0d1c] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">進行中</h3>
                 @foreach ($ongoingChallenges as $ongoingChallenge)
-                    <div class="flex items-center border-b border-gray-200 gap-4 px-4 min-h-[72px] py-2 justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="text-[#0d0d1c] flex items-center justify-center rounded-lg bg-[#e7e7f4] shrink-0 size-12" data-icon="Footprints" data-size="24px" data-weight="regular">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                                    <path
-                                        d="M208.06,184H152a8,8,0,0,0-8,8v12a36,36,0,0,0,72.05,0V192A8,8,0,0,0,208.06,184Zm-8,20a20,20,0,0,1-40,0v-4h40ZM104,160h-56a8,8,0,0,0-8,8v12A36,36,0,0,0,112,180V168A8,8,0,0,0,104,160Zm-8,20a20,20,0,0,1-40,0v-4H96ZM76,16C64.36,16,53.07,26.31,44.2,45c-13.93,29.38-18.56,73,.29,96a8,8,0,0,0,6.2,2.93h50.55a8,8,0,0,0,6.2-2.93c18.85-23,14.22-66.65.29-96C98.85,26.31,87.57,16,76,16ZM97.15,128H54.78c-11.4-18.1-7.21-52.7,3.89-76.11C65.14,38.22,72.17,32,76,32s10.82,6.22,17.3,19.89C104.36,75.3,108.55,109.9,97.15,128Zm57.61,40h50.55a8,8,0,0,0,6.2-2.93c18.85-23,14.22-66.65.29-96C202.93,50.31,191.64,40,180,40s-22.89,10.31-31.77,29c-13.93,29.38-18.56,73,.29,96A8.05,8.05,0,0,0,154.76,168Zm8-92.11C169.22,62.22,176.25,56,180,56s10.82,6.22,17.29,19.89c11.1,23.41,15.29,58,3.9,76.11H158.85C147.45,133.9,151.64,99.3,162.74,75.89Z"></path>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col justify-center">
-                                <p class="text-[#0d0d1c] text-base font-medium leading-normal line-clamp-1">{{$ongoingChallenge->title}}</p>
-                                <p class="text-[#49499c] text-sm font-normal leading-normal line-clamp-2">Progress: 80%</p>
-                            </div>
+                <div class="flex items-center border-b border-gray-200 gap-4 px-4 min-h-[72px] py-2 justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="text-[#0d0d1c] flex items-center justify-center rounded-lg bg-[#e7e7f4] shrink-0 size-12" data-icon="Footprints" data-size="24px" data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                <path
+                                    d="M208.06,184H152a8,8,0,0,0-8,8v12a36,36,0,0,0,72.05,0V192A8,8,0,0,0,208.06,184Zm-8,20a20,20,0,0,1-40,0v-4h40ZM104,160h-56a8,8,0,0,0-8,8v12A36,36,0,0,0,112,180V168A8,8,0,0,0,104,160Zm-8,20a20,20,0,0,1-40,0v-4H96ZM76,16C64.36,16,53.07,26.31,44.2,45c-13.93,29.38-18.56,73,.29,96a8,8,0,0,0,6.2,2.93h50.55a8,8,0,0,0,6.2-2.93c18.85-23,14.22-66.65.29-96C98.85,26.31,87.57,16,76,16ZM97.15,128H54.78c-11.4-18.1-7.21-52.7,3.89-76.11C65.14,38.22,72.17,32,76,32s10.82,6.22,17.3,19.89C104.36,75.3,108.55,109.9,97.15,128Zm57.61,40h50.55a8,8,0,0,0,6.2-2.93c18.85-23,14.22-66.65.29-96C202.93,50.31,191.64,40,180,40s-22.89,10.31-31.77,29c-13.93,29.38-18.56,73,.29,96A8.05,8.05,0,0,0,154.76,168Zm8-92.11C169.22,62.22,176.25,56,180,56s10.82,6.22,17.29,19.89c11.1,23.41,15.29,58,3.9,76.11H158.85C147.45,133.9,151.64,99.3,162.74,75.89Z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-[#0d0d1c] text-base font-medium leading-normal line-clamp-1">{{$ongoingChallenge->title}}</p>
+                            <p class="text-[#49499c] text-sm font-normal leading-normal line-clamp-2">Progress: 80%</p>
                         </div>
                     </div>
+                </div>
                 @endforeach
                 <h3 class="text-[#0d0d1c] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">達成済み</h3>
                 @foreach ($endedChallenges as $endedChallenge)
-                    <div class="flex items-center border-b border-gray-200 gap-4 px-4 min-h-[72px] py-2 justify-between">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="text-[#0d0d1c] flex items-center justify-center rounded-lg bg-[#e7e7f4] shrink-0 size-12"
-                                data-icon="HandsPraying"
-                                data-size="24px"
-                                data-weight="regular">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
-                                    <path
-                                        d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"></path>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col justify-center">
-                                <p class="text-[#0d0d1c] text-base font-medium leading-normal line-clamp-1">{{$endedChallenge->title}}</p>
-                                <p class="text-[#078841] text-sm font-normal leading-normal line-clamp-2">Completed</p>
-                            </div>
+                <div class="flex items-center border-b border-gray-200 gap-4 px-4 min-h-[72px] py-2 justify-between">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="text-[#0d0d1c] flex items-center justify-center rounded-lg bg-[#e7e7f4] shrink-0 size-12"
+                            data-icon="HandsPraying"
+                            data-size="24px"
+                            data-weight="regular">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                                <path
+                                    d="M235.32,180l-36.24-36.25L162.62,23.46A21.76,21.76,0,0,0,128,12.93,21.76,21.76,0,0,0,93.38,23.46L56.92,143.76,20.68,180a16,16,0,0,0,0,22.62l32.69,32.69a16,16,0,0,0,22.63,0L124.28,187a40.68,40.68,0,0,0,3.72-4.29,40.68,40.68,0,0,0,3.72,4.29L180,235.32a16,16,0,0,0,22.63,0l32.69-32.69A16,16,0,0,0,235.32,180ZM64.68,224,32,191.32l12.69-12.69,32.69,32.69ZM120,158.75a23.85,23.85,0,0,1-7,17L88.68,200,56,167.32l13.65-13.66a8,8,0,0,0,2-3.34l37-122.22A5.78,5.78,0,0,1,120,29.78Zm23,17a23.85,23.85,0,0,1-7-17v-129a5.78,5.78,0,0,1,11.31-1.68l37,122.22a8,8,0,0,0,2,3.34l14.49,14.49-33.4,32ZM191.32,224l-12.56-12.57,33.39-32L224,191.32Z"></path>
+                            </svg>
                         </div>
-                        <div class="shrink-0">
-                            <div class="flex size-7 items-center justify-center">
-                                <div class="size-3 rounded-full bg-[#078841]"></div>
-                            </div>
+                        <div class="flex flex-col justify-center">
+                            <p class="text-base font-medium leading-normal line-clamp-1">{{$endedChallenge->title}}</p>
+                            <p class="text-sm font-normal leading-normal line-clamp-2 {{ $endedChallenge->state->value === 'completed' ? 'text-[#00B16B]' : 'text-[#E53935]'}}">{{$endedChallenge->state}}</p>
                         </div>
                     </div>
+                    <div class="shrink-0">
+                        <div class="flex size-7 items-center justify-center">
+                            <div class="size-3 rounded-full {{ $endedChallenge->state->value === 'completed' ? 'bg-[#00B16B]' : 'bg-[#E53935]'}}"></div>
+                        </div>
+                    </div>
+                </div>
                 @endforeach
+                <a href="{{ route('challenge-all') }}" class="flex justify-center text-blue-600 font-bold w-full p-5 hover:underline">全ての達成済みチャレンジ →</a>
             </div>
             <!-- 右側のメインコンテンツ -->
-            <div class="layout-content-container flex flex-col max-w-[960px] flex-1 mx-10">
+            <div class="layout-content-container flex flex-col w-[60%] flex-1 mx-10">
                 <div class="flex flex-col justify-between gap-3 w-full p-4">
                     <p class="text-[#0d0d1c] tracking-light text-[32px] font-bold leading-tight min-w-72">進捗チェックボード</p>
                     <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[100px]"></div>
@@ -83,22 +84,33 @@
                 // X軸ラベル
                 switch($mode) {
                 case '1w':
+                $modeJP = '1週間';
                 $xLabels = ['月', '火', '水', '木', '金', '土', '日'];
                 break;
                 case '1m':
+                $modeJP = "1ヶ月";
                 $xLabels = ['1週目', '2週目', '3週目', '4週目'];
                 break;
                 case '6m':
+                $modeJP = "半年";
                 $xLabels = ['1月', '2月', '3月', '4月', '5月', '6月'];
                 break;
                 case '1y':
+                $modeJP = "1年";
                 $xLabels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
                 break;
                 default:
                 $xLabels = [];
                 }
+                $logsCount = 0;
                 @endphp
+                
                 <template id={{ $mode }}>
+                        @foreach( $detailDatas as $detailData)
+                            @php
+                            $logsCount = $logsCount + $detailData['success_total'];
+                            @endphp
+                        @endforeach
                     <div class="flex flex-wrap gap-4 p-4 mb-5">
                         <div class="flex min-w-[200px] flex-1 flex-col bg-white shadow-lg gap-2 rounded-xl p-6">
                             <p class="text-green-600 text-base font-medium leading-normal">挑戦中のチャレンジ</p>
@@ -121,77 +133,77 @@
                     </div>
 
                     <div class="flex min-w-72 flex-1 flex-col bg-white gap-2 rounded-xl border border-[#cecee8] m-5 p-6">
-                        <p class="text-[#0d0d1c] text-base font-medium leading-normal my-2">{{ $mode }}のチャレンジ</p>
-                        <p class="text-[#0d0d1c] tracking-light text-[32px] font-bold leading-tight truncate">15件</p>
-                        <div class="flex gap-1">
-                            <p class="text-base font-normal leading-normal">前週より</p>
-                            <p class="text-blue-600 text-base font-medium leading-normal">+10%</p>
-                        </div>
+                        <p class="text-[#0d0d1c] text-base font-medium leading-normal my-2">{{ $modeJP }}のチャレンジ記録</p>
+                        <p class="text-[#77bb41] tracking-light text-[32px] font-bold leading-tight truncate">{{ $data['success_total']}}回</p>
                         <!-- グラフ自体 -->
-                        <div class="flex gap-3">
-                            <!-- 左側: 数値（Y軸） -->
-                            <div class="grid grid-rows-5 h-80 text-gray-500 text-right pr-4 select-none">
-                                @for($i=0; $i<=4; $i++)
-                                    <span>{{ round($rawMax * ($i/4)) }}</span>
-                                    @endfor
-                            </div>
-
-                            <!-- 右側: グラフ領域 -->
-                            <div class="relative flex-1 h-80">
+                        <svg viewBox="0 0 800 300" width="100%" preserveAspectRatio="none">
+                            @php
+                                $topSpace = 50;
+                                $leftSpace = 100;
+                                $height = 200;
+                                $width = 800 -$leftSpace;
+                            @endphp
+                            @for($i=0; $i<=4; $i++)
+                                @php
+                                $y=$height - ($height * ($i/4)) + $topSpace;
+                                $label=$rawMax * ($i/4);
+                                @endphp
                                 <!-- 点線 -->
-                                <div class="absolute inset-0 grid grid-rows-5 h-80">
-                                    <div class="border-t border-dashed border-gray-300 w-full"></div>
-                                    <div class="border-t border-dashed border-gray-300 w-full"></div>
-                                    <div class="border-t border-dashed border-gray-300 w-full"></div>
-                                    <div class="border-t border-dashed border-gray-300 w-full"></div>
-                                </div>
+                                <line x1="{{ $leftSpace }}" y1="{{ $y }}" x2="{{ $width + $leftSpace }}" y2="{{ $y }}"
+                                    stroke="#ccc" stroke-dasharray="4" />
 
+                                <!-- ラベル -->
+                                <text x="{{ $leftSpace/2 }}" y="{{ $y }}" font-size="12"
+                                    text-anchor="end" dominant-baseline="middle">
+                                    {{ $label }}
+                                </text>
+                                @endfor
+                                <!-- 計算 -->
+                                @php
+                                $detailIndex = count($detailDatas);
+                                $space = $width / ($detailIndex * 2);
+                                @endphp
+                                @foreach ($detailDatas as $i => $detailData)
+                                    @php
+                                        $value = $detailData['success_total'];
+                                        $graphHeight = $rawMax > 0 ? ($value / $rawMax) * $height : 0;
+                                        $graphWidth = $width / ($detailIndex * 2);
+                                        $x = $i * ($graphWidth + $space) + $space + $leftSpace;
+                                        $y = $height - $graphHeight + $topSpace;
+
+                                        $rate = $detailData['achievement_rate'];
+                                        $yRate = $height - (($rate / 100) * $height) + $topSpace;
+                                        
+                                    @endphp
+                                    <!-- 棒 -->
+                                    <rect x="{{ $x - ($graphWidth/2) }}"
+                                        y="{{ $y }}"
+                                        width="{{ $graphWidth }}"
+                                        height="{{ $graphHeight }}"
+                                        fill="#77bb41" />
+
+                                    <!-- 折れ線の点 -->
+                                    <circle cx="{{ $x }}" cy="{{ $yRate }}" r="3" fill="#005D4D" />
+
+                                    <!-- 線は後でまとめる -->
+                                    @php
+                                        $points[] = ($x) . ',' . $yRate;
+                                    @endphp
+                                @endforeach
                                 <!-- 折れ線 -->
-                                <svg
-                                    class="w-full h-full relative"
-                                    viewBox="0 0 700 150"
-                                    preserveAspectRatio="none">
-                                    <!-- 棒グラフ -->
-                                    @foreach ($detailDatas as $detailIndex => $detail_data) <!-- detailIndexは配列のインデックス -->
+                                <polyline points="{{ implode(' ', $points ?? []) }}"
+                                    fill="none" stroke="#005D4D" stroke-width="2" />
+                                @foreach ( $xLabels as $j => $xLabel)
                                     @php
-                                    $barCount = count($detailDatas);
-                                    $graphWidth = 100 / ($barCount * 2);
-                                    $graphHeight = 150;
-                                    $xBar = ($detailIndex * 2 + 0.5) * $graphWidth;
-                                    $detailSuccess = $detail_data['success_total'];
-                                    $barHeight = $rawMax > 0 ? ($detailSuccess / $rawMax) * $graphHeight : 0;
-                                    $yBar = $graphHeight - $barHeight;
-                                    //線グラフ
-                                    $achievement = $detail_data['achievement_rate'];
-                                    $xLine = ($detailIndex * 2 + 1) * $graphWidth;
-                                    $yLine = $rawMax > 0 ? ($achievement / 100) * $graphHeight : 0;
+                                        $graphWidth = $width / ($detailIndex * 2);
+                                        $x = $j * ($graphWidth + $space) + $space + $leftSpace;
                                     @endphp
-                                    <rect x={{ $xBar }} y={{ $yBar }} width={{ $graphWidth }} height={{ $barHeight }} fill="#77bb41" />
-                                    <polyline points="{{ $xLine }},{{ $yLine }}" fill="none" stroke="#005D4D" stroke-width="3" vector-effect="non-scaling-stroke" />
-                                    @endforeach
-                                    @php
-                                    $points = '';
-                                    foreach ($detailDatas as $detailndex => $detsil_data) {
-                                    $xPercent = ($detailIndex * 2 + 0.5) * $graphWidth;
-                                    $yPercent = 100 - (($achievementDetails[$detailIndex] ?? 0) / 100) * $graphHeight;
-                                    $points .= "{$xPercent},{$yPercent} ";
-                                    }
-                                    @endphp
-
-                                    <polyline
-                                        points="{{ trim($points) }}"
-                                        fill="none"
-                                        stroke="#005D4D"
-                                        stroke-width="2"
-                                        vector-effect="non-scaling-stroke" />
-                                </svg>
-                                <div class="absolute bottom-0 inset-x-0 flex justify-around text-gray-500 border-t border-gray-200 pt-1 bg-white z-20">
-                                    @foreach ($xLabels as $xLabel)
-                                    <span>{{ $xLabel }}</span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                                    <text x="{{ $x }}" y="{{ $height + $topSpace + 25 }}" font-size="12" text-anchor="center" dominant-baseline="middle">
+                                        {{ $xLabel }}
+                                    </text>
+                                @endforeach
+                                
+                        </svg>
 
                     </div>
                 </template>

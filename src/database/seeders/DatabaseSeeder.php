@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             ChallengeStatusesSeeder::class,
             PostTypesSeeder::class,
             ReactionTypesSeeder::class,
+            ImageSeeder::class,
         ]);
         //ダミーデータ
         $this->call([
