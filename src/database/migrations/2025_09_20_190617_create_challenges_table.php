@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('frequency_goal')->default(1);
             $table->unsignedInteger('current_streak')->default(0);
             $table->unsignedInteger('max_streak')->default(0);
+            $table->unsignedInteger('achievement_rate')->nullable()->default(0);
             $table->timestamp('interrupted_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
