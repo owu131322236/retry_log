@@ -27,9 +27,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     // タイムライン(ホーム画面)
     Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline');
-    Route::get('/timeline/{postType}', [TimelineController::class, 'fetchTimeline'])->name('timeline.fetch');
+    Route::get('/timeline/{contentType}', [TimelineController::class, 'fetchTimeline'])->name('timeline.fetch');
     //チャレンジ画面
     Route::get('/challenges', [ChallengeController::class, 'index'])->name('challenges');
+    Route::get('/challenge-all', [ChallengeController::class, 'all'])->name('challenge-all');
     Route::post('/challenges/store', [ChallengeController::class, 'store'])->name('challenges.store');
     Route::post('/challenges/{challenge}/restart', [ChallengeController::class, 'restart'])->name('challenges.restart');
     Route::delete('/challenges/{challenge}/destroy', [ChallengeController::class, 'destroy'])->name('challenges.destroy');
@@ -47,14 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/post/store',[PostController::class, 'store'])->name('post.store');
     //リアクション
     Route::post('post/reaction/toggle',[PostController::class,'toggleReaction'])->name('posts.reaction.toggle');
+    Route::post('comment/reaction/toggle',[CommentController::class,'toggleReaction'])->name('comments.reaction.toggle');
     //コメント
     Route::post('/comment/store',[CommentController::class, 'store'])->name('comment.store');
+    Route::get('/{comment}/comment-show',[CommentController::class,'index'])->name('comment.show');
 });
 
 require __DIR__.'/auth.php';
 Route::get('/post-create', function () {
     return view('post-create');
 })->name('post-create');
-Route::get('/challenge-all', function () {
-    return view('challenges/all');
-})->name('challenge-all');

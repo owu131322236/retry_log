@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\PostType;
+use App\Models\ContentType;
 use App\Services\PostService;
 use App\Services\ReactionService;
 use App\Services\UserService;
@@ -29,6 +29,7 @@ class PostController extends Controller
     }
     public function index(Post $post)
     {
+        //PostとComment共通ページなので注意！
         //profile-card用の処理
         $currentUser = auth()->user();
         $profileUserId = $post->user_id;
@@ -37,7 +38,7 @@ class PostController extends Controller
         $retryRate = round($this->challengeProgressService->getRetryRate($profileUserId)->get('retry_rate') * 100);
         //post用の処理
         $post = $this->postService->getPostDetail($post->id);
-        return view('post-show', ['post' => $post, 'profileUser' => $profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate]);
+        return view('post-show', ['target' => $post, 'profileUser' => $profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate]);
     }
     /**
      * Show the form for creating a new resource.
@@ -54,13 +55,13 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'content' => 'required|string|max:200',
-            'post_type' => 'required|string|exists:post_types,name',
+            'content_type' => 'required|string|exists:content_types,name',
         ]);
-        $post_type = PostType::where('name', $request->post_type)->firstOrFail();
+        $content_type = ContentType::where('name', $request->content_type)->firstOrFail();
         $post = Post::create([
             'user_id' => auth()->id(),
             'content' => $validated['content'],
-            'post_type_id' => $post_type->id,
+            'content_type_id' => $content_type->id,
         ]);
         $post->save();
         return redirect()->back()->with('success', 'ポストが投稿されました');

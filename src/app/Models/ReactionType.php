@@ -15,9 +15,9 @@ class ReactionType extends Model
         'point_cost' => 'integer',
     ];
     public $timestamps = false;
-    public function postType()
+    public function contentType()
     {
-        return $this->belongsTo(PostType::class);
+        return $this->belongsTo(ContentType::class);
     }
     public function reactions()
     {
@@ -26,11 +26,11 @@ class ReactionType extends Model
 // スコープ関数---------------------------------------------------------------
     public function scopeCommon($query)
     {
-        return $query->whereNull('post_type_id');
+        return $query->whereNull('content_type_id');
     }
 
-    public function scopeForPostType($query, $postTypeId)
+    public function scopeForContentType($query, $contentTypeId)
     {
-        return $query->where('post_type_id', $postTypeId);
+        return $query->where('content_type_id', $contentTypeId);
     }
 }

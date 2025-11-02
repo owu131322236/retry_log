@@ -28,7 +28,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="flex-grow mt-20 mb-20 bg-gray-100">   
+            <main class="page-bg flex-grow mt-20 pb-40 bg-gray-100">   
                 {{ $slot }}
             </main>
             <!-- 共通モーダル -->

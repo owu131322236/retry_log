@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +17,9 @@ class Comment extends Model
         'target_id',
         'parent_id',
         'content',
+        'content_type_id',
     ];
-    
+
 
     protected static function booted()
     {
@@ -53,18 +55,26 @@ class Comment extends Model
     //リアクションの合計数のリアクション
     public function reactionCounts()
     {
-        return $this->morphMany(ReactionCount::class,'target');
+        return $this->morphMany(ReactionCount::class, 'target');
     }
     public function target()
     {
-        return $this->morphTo();  
+        return $this->morphTo();
     }
     public function parent()
     {
         return $this->belongsTo(Comment::class, 'parent_id');
     }
-    public function replies()
+    public function comments()
     {
         return $this->hasMany(Comment::class, 'parent_id');
+    }
+    public function contentType()
+    {
+        return $this->belongsTo(ContentType::class, 'content_type_id');
+    }
+    public function getAvailableReactionsAttribute() //関数めいはavailable_reactions
+    {
+        return $this->contentType?->reactionTypes ?? collect();
     }
 }

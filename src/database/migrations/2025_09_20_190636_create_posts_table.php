@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('challenge_log_id')->nullable()->constrained('challenge_logs')->onDelete('set null');
             $table->text('content');
             $table->unsignedInteger('comments_count')->default(0);
-            $table->foreignId('post_type_id')->constrained('post_types')->restrictOnDelete();
+            $table->foreignId('content_type_id')->constrained('content_types')->restrictOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
