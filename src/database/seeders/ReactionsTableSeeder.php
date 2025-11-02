@@ -21,7 +21,7 @@ class ReactionsTableSeeder extends Seeder
                 'target_type' => get_class($post),
                 'target_id' =>$post->id
             ]);
-
+            if (!$post) continue; 
             Reaction::firstOrCreate([
                 'user_id' => $reaction->user_id,
                 'reaction_type_id' => $reaction->reaction_type_id,
@@ -38,7 +38,7 @@ class ReactionsTableSeeder extends Seeder
                 'target_type' => get_class($comment),
                 'target_id' =>$comment->id
             ]);
-
+            if (!$comment) continue; 
             Reaction::firstOrCreate([
                 'user_id' => $reaction->user_id,
                 'reaction_type_id' => $reaction->reaction_type_id,

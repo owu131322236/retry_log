@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\ContentType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
@@ -30,12 +31,15 @@ class CommentFactory extends Factory
         if ($targetType === Comment::class) {
             $parentId = Comment::inRandomOrder()->first()?->id;
         }
+        $contentTypeId = ContentType::where('name', 'neutral')->value('id');
+
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'target_type' => $targetType,
             'target_id' => $targetId,
             'parent_id' => $parentId,
             'content' => $this->faker->sentence(),
+            'content_type_id' => $contentTypeId,
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => now(),
         ];

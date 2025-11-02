@@ -18,6 +18,10 @@ return new class extends Migration
             $table->unsignedBigInteger('target_id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->text('content');
+            $table->foreignId('content_type_id')->nullable()->constrained('content_types')->restrictOnDelete()
+            ->default(function () {
+                return \App\Models\ContentType::where('name', 'neutral')->value('id');
+            });
             $table->timestamps();
         });
     }

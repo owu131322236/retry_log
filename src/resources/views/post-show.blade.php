@@ -1,20 +1,21 @@
+<!-- ポストとコメントとの共通ページ -->
 <x-app-layout>
     <div class=" flex flex-wrap justify-center gap-x-10 my-10">
         <div class="flex flex-col w-3/5">
             <!-- メイン投稿 -->
             <x-posts.post-detail
-            :post="$post"
+            :target="$target"
             />
             <!-- 返信ポスト -->
             <div class="pl-4 border-l-2 border-gray-300 m-8">
                 <div class="flex flex-col gap-3 mx-5">
-                    @foreach ($post->comments as $comment )
+                    @foreach ($target->comments as $comment )
                         <x-posts.post-reply 
                         :comment="$comment"/>
                     @endforeach
                 </div>
             </div>
-            <div class="sticky bottom-0 bg-gray-100/90 z-10">
+            <div class="sticky bottom-0 bg-gray-100/90 z-10 my-5">
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex items-start space-x-4 py-4">
                     <img
@@ -25,8 +26,8 @@
                             <div class="flex-1 flex items-center space-x-2">
                             
                                 @csrf
-                                <input type="hidden" name="target_type" id="inputTargetType" value="{{ $post->getMorphClass() }}">
-                                <input type="hidden" name="target_id" id="inputTargetId" value="{{ $post->id }}">
+                                <input type="hidden" name="target_type" id="inputTargetType" value="{{ $target->getMorphClass() }}">
+                                <input type="hidden" name="target_id" id="inputTargetId" value="{{ $target->id }}">
                                 <input type="text" name="content" class="w-full bg-background-light dark:bg-background-dark border border-gray-300 dark:border-border-dark rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-text-light dark:text-text-dark" placeholder="Post your reply" type="text" />
                                 <button type="submit" class="bg-blue-500 border border-gray-300 text-white font-semibold py-2 px-4 rounded-full hover:opacity-90 transition-opacity">
                                     Reply

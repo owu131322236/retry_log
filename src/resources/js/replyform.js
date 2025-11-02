@@ -4,8 +4,10 @@ window.initFormEvents = function(){
     const closeForm = document.getElementById('closeForm');
     const replyUserHandle = document.getElementById('replyUserHandle');
     const replyUserName = document.getElementById('replyUserName');
+    const replyUserIcon = document.getElementById('replyUserIcon');
     const replyContent = document.getElementById('replyContent');
     const replyDate = document.getElementById('replyDate');
+    const currentUserIcon = document.getElementById('currentUserIcon');
     //リプライのform内要素
     const inputTargetType = document.getElementById('inputTargetType');
     const inputTargetId = document.getElementById('inputTargetId');
@@ -22,12 +24,15 @@ window.initFormEvents = function(){
             replyUserId = btn.dataset.replyUserId;
             replyUserName.textContent = btn.dataset.replyUserName;
             replyUserHandle.textContent = '@' + btn.dataset.replyUserHandle;
+            replyUserIcon.src = btn.dataset.replyUserIcon;
             replyDate.textContent = btn.dataset.replyDate;
+            currentUserIcon.src = btn.dataset.currentUserIcon;
             replyContent.textContent = btn.dataset.replyContent;
             const profileUrl = setProfileUrl.replace('USER_ID_PLACEHOLDER', replyUserId);
             replyUserHandle.href = profileUrl;
             replyForm.classList.remove('hidden');
             //inputの中身
+        
             inputTargetType.value = btn.dataset.targetType;
             inputTargetId.value = btn.dataset.replyId;
             // inputParentId.value = (targetType.includes('Comment')) //parent_idはCommentの時のみ

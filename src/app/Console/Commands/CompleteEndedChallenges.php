@@ -27,13 +27,11 @@ class CompleteEndedChallenges extends Command
             ->where('end_date', '<', $today)
             ->whereIn('state', ['in_progress', 'not_started'])
             ->get();
-
         foreach ($challenges as $challenge) {
             $state = $this->challengeService->calculateChallengeState($challenge);
             $challenge->state = $state->value;
-            // $challenge->achievement_rate = $expected > 0
-            //     ? round(($success / $expected) * 100, 2)
-            //     : 0;
+            $rate = $this->challengeService->calculateAcheivementRate($challenge);
+            $challenge->achievement_rate = round($rate * 100, 2);
             $challenge->save();
         }
 

@@ -15,17 +15,17 @@ class PostService
             'comments',  
             'reactionCounts.reactionType', 
             'userReaction.reactionType',
-            'postType',
-            'postType.reactionTypes'         
+            'contentType',
+            'contentType.reactionTypes'         
         ])
             ->withCount(['reactions', 'comments']) 
-            ->select('id', 'user_id', 'content', 'updated_at', 'created_at', 'post_type_id');
+            ->select('id', 'user_id', 'content', 'updated_at', 'created_at', 'content_type_id');
     }
-    public function getTimelinePosts(string $postType, int $limit = 20)
+    public function getTimelinePosts(string $contentType, int $limit = 20)
     {
         return $this->baseQuery()
-            ->whereHas('postType',function($query)use($postType){
-                $query->where('name',$postType);
+            ->whereHas('contentType',function($query)use($contentType){
+                $query->where('name',$contentType);
             })
             ->latest('updated_at')
             ->take($limit)
@@ -55,6 +55,5 @@ class PostService
             ->latest()
             ->findOrFail($postId);
     }
-
     
 }

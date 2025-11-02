@@ -1,9 +1,9 @@
 @props(['user', 'isOwnProfile' =>false, 'isFollowing'=>false, 'retryRate'])
 <div class="layout-content-container flex flex-col bg-white w-80 h-fit rounded-2xl shadow-lg hover:border">
-    <div class="flex p-4 @container">
+    <div class="flex py-10 @container">
         <div class="flex w-full flex-col gap-4 items-center">
         <img
-            src="{{ auth()->user()->icon->path ?? asset('images/icons/default.jpg') }}"
+            src="{{ $user->icon->path ?? asset('images/icons/default.jpg') }}"
             alt="User Icon"
             class="w-32 h-32 rounded-full border object-cover"/>
             <div class="flex flex-col items-center justify-center justify-center">

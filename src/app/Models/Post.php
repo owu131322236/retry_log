@@ -13,7 +13,7 @@ class Post extends Model
 
     protected $fillable = [
         'content',
-        'post_type_id'
+        'content_type_id'
     ];
 
     protected $casts = [
@@ -43,11 +43,11 @@ class Post extends Model
     }
     public function comments()
     {
-        return $this->morphMany(Comment::class,'target');
+        return $this->morphMany(Comment::class, 'target');
     }
-    public function postType()
+    public function contentType()
     {
-        return $this->belongsTo(PostType::class);
+        return $this->belongsTo(ContentType::class, 'content_type_id');
     }
     public function reactions()
     {
@@ -64,12 +64,26 @@ class Post extends Model
             ->where('user_id', auth()->id());
     }
 
-    public function scopeType($query, int $postTypeId)
+    public function scopeType($query, int $contentTypeId)
     {
-        return $query->where('post_type_id', $postTypeId);
+        return $query->where('content_type_id', $contentTypeId);
     }
     public function getAvailableReactionsAttribute() //関数めいはavailable_reactions
     {
-        return $this->postType?->reactionTypes ?? collect();
+        return $this->contentType?->reactionTypes ?? collect();
+    }
+    public function getCreatedHumanAttribute()
+    {
+        $date = $this->created_at;
+        $days = $date->diffInDays();
+
+        if ($days == 0) {
+            return $date->locale('ja')->diffForHumans();
+        } elseif ($days < 1) {
+            return $date->locale('ja')->diffForHumans();
+        } elseif ($days < 365) {
+            return $date->locale('ja')->format('m/d');
+        }
+        return $date->format('Y/m/d');
     }
 }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PostType extends Model
+class ContentType extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
@@ -12,6 +12,10 @@ class PostType extends Model
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
     public function reactionTypes()
     {

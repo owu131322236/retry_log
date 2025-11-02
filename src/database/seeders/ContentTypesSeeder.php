@@ -1,26 +1,27 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\PostType;
+use App\Models\ContentType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PostTypesSeeder extends Seeder
+class ContentTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $postTypes = [
+        $contentTypes = [
             [ 'name' => 'success', 'is_active' => true],
             [ 'name' => 'fail', 'is_active' => true],
+            [ 'name' => 'neutral', 'is_active' => true],
         ];
 
-        foreach($postTypes as $postType){
-            PostType::firstOrCreate(
-                ['name' =>$postType['name']],
-                ['is_active' =>$postType['is_active']],
+        foreach($contentTypes as $contentType){
+            ContentType::firstOrCreate(
+                ['name' =>$contentType['name']],
+                ['is_active' =>$contentType['is_active']],
             );
         }
     }
