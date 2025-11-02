@@ -1,8 +1,13 @@
 window.goToDetail = function(e) {
-    const post = e.currentTarget;
-    const postId = post.dataset.postId;
-    if (!postId) return;
-    window.location.href = `/${postId}/post-show`;
+    const target = e.currentTarget;
+    const targrtType = target.dataset.targetType;
+    const targetId = target.dataset.targetId;
+    if (!targetId) return;
+    if (targrtType.includes('Post')) {
+        window.location.href = `/${targetId}/post-show`;
+    } else if (targrtType.includes('Comment')) {
+        window.location.href = `/${targetId}/comment-show`;
+    }
 };
 
 window.goToProfile = function(e) {

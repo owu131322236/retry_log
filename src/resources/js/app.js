@@ -3,6 +3,7 @@ import './reactions';
 import './replyform';
 import './link';
 import './postform';
+import './navigation';
 
 import Alpine from 'alpinejs';
 

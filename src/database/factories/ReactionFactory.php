@@ -7,6 +7,7 @@ use App\Models\ReactionType;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Models\Reaction;
+use App\Models\ContentType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,13 +22,30 @@ class ReactionFactory extends Factory
      */
     public function definition(): array
     {
-        $targetType = $this->faker->randomElement([Post::class, Comment::class]);
-        $target = $targetType::inRandomOrder()->first();
+        $target = collect([
+            Post::inRandomOrder()->first(),
+            Comment::inRandomOrder()->first(),
+        ])
+        ->filter() 
+        ->filter(function ($t) {
+            $contentTypeId = $t instanceof Post
+                ? $t->content_type_id
+                : ContentType::where('name', 'neutral')->value('id');
+            return ReactionType::forContentType($contentTypeId)->exists();
+        })
+        ->random();
+        $contentTypeId = $target instanceof Post
+            ? $target->content_type_id
+            : ContentType::where('name', 'neutral')->value('id');
+    
+        $reactionTypeId = ReactionType::forContentType($contentTypeId)
+            ->inRandomOrder()
+            ->value('id');
         return [
-            'user_id' => User::inRandomOrder()->first()->id ?? User::factory(),
-            'reaction_type_id' => ReactionType::inRandomOrder()->first()->id ?? ReactionType::factory(),
-            'target_type' => $targetType,
-            'target_id' => $target->id, //ここがnullのReactionはありえない
+            'user_id'          => $target->user_id,
+            'target_type'      => get_class($target),
+            'target_id'        => $target->id,
+            'reaction_type_id' => $reactionTypeId,
         ];
     }
 }

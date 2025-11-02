@@ -49,6 +49,7 @@ class ChallengeLogController extends Controller
             ->firstOrFail();
 
         $status = ChallengeStatus::where('name', $request->status)->firstOrFail();
+        $achievmentRate = $challengeService->calculateAcheivementRate($challenge);
 
         $alreadyLogged = ChallengeLog::where('challenge_id', $challenge->id)
             ->whereDate('logged_at', now())

@@ -27,7 +27,8 @@ class ChallengeController extends Controller
     }
     public function all()
     {
-        $allChallenges = $this->challengeService->getUserChallenges(auth()->id(), 20, true);
+        $endedChallenges = $this->challengeService->getUserEndedChallenges(auth()->user()->id, 20, true);
+        return view('challenges.all', compact('endedChallenges'));
     }
 
     /**

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reaction_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_type_id')->nullable()->constrained('post_types')->restrictOnDelete();
+            $table->foreignId('content_type_id')->nullable()->constrained('content_types')->restrictOnDelete();
             $table->string('emoji');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_special')->default(false);

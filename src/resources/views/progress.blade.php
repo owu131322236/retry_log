@@ -23,7 +23,7 @@
                         </div>
                         <div class="flex flex-col justify-center">
                             <p class="text-[#0d0d1c] text-base font-medium leading-normal line-clamp-1">{{$ongoingChallenge->title}}</p>
-                            <p class="text-[#49499c] text-sm font-normal leading-normal line-clamp-2">Progress: 80%</p>
+                            <p class="text-[#49499c] text-sm font-normal leading-normal line-clamp-2">Progress: {{$ongoingChallenge->achievment_rate ?? 0}}%</p>
                         </div>
                     </div>
                 </div>
@@ -162,6 +162,7 @@
                                 @php
                                 $detailIndex = count($detailDatas);
                                 $space = $width / ($detailIndex * 2);
+                                $points = [];
                                 @endphp
                                 @foreach ($detailDatas as $i => $detailData)
                                     @php

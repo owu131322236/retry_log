@@ -36,16 +36,16 @@ class TimelineController extends Controller
         $timeline = $this->postService->getTimelinePosts('success',20);
         return view('timeline', ['profileUser'=>$profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate, 'timeline'=>$timeline]);
     }
-    public function fetchTimeline(string $postType)
+    public function fetchTimeline(string $contentType)
 {
-        $posts = $this->postService->getTimelinePosts($postType, 20);
+        $posts = $this->postService->getTimelinePosts($contentType, 20);
         $currentUser = auth()->user();
         $profileUserId = $currentUser->id; //userとプロフィールuserは同じにする
         $profileUser = $this->userService->getUserProfile($profileUserId);
         $context = $this->userService->getProfileContext($currentUser, $profileUser);
         $retryRate = round($this->challengeProgressService->getRetryRate($profileUserId)->get('retry_rate')*100);
         //timeline用の処理
-        $timeline = $this->postService->getTimelinePosts($postType,20);
+        $timeline = $this->postService->getTimelinePosts($contentType,20);
         return view('partials.timeline-posts', ['profileUser'=>$profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate, 'timeline'=>$timeline])->render();
 }
     

@@ -1,12 +1,13 @@
 @props(['post'])
     <div class="rounded-3xl bg-white shadow-lg h-fit w-full my-2 hover:border-primary/50 hover:scale-105 transition-all">
         <div class="flex w-full flex-row items-start justify-start gap-3 p-4" 
-             data-post-id="{{ $post->id }}"
+             data-target-id="{{ $post->id }}"
+             data-target-type="{{ $post->getMorphClass() }}"
              onclick="goToDetail(event)">
              <img
-                    src="{{ $post->user()->icon->path ?? asset('images/icons/default.jpg') }}"
+                    src="{{ $post->user->icon->path ?? asset('images/icons/default.jpg') }}"
                     alt="User Icon"
-                    class="w-10 h-10 rounded-full border object-cover"
+                    class="w-10 h-10 rounded-full border object-cover hover:brightness-75"
                     data-user-id ="{{ $post->user->id }}" 
                     onclick="goToProfile(event)"/>
             <div class="flex h-full flex-1 flex-col items-start justify-start">
@@ -17,7 +18,7 @@
                             <path fill="#0061ff" d="m12.05 19l2.85-2.825l-2.85-2.825L11 14.4l1.075 1.075q-.7.025-1.362-.225t-1.188-.775q-.5-.5-.763-1.15t-.262-1.3q0-.425.113-.85t.312-.825l-1.1-1.1q-.425.625-.625 1.325T7 12q0 .95.375 1.875t1.1 1.65t1.625 1.088t1.85.387l-.95.95zm4.125-4.25q.425-.625.625-1.325T17 12q0-.95-.363-1.888T15.55 8.45t-1.638-1.075t-1.862-.35L13 6.05L11.95 5L9.1 7.825l2.85 2.825L13 9.6l-1.1-1.1q.675 0 1.375.263t1.2.762t.763 1.15t.262 1.3q0 .425-.112.85t-.313.825zM12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
                         </svg>
                     </div>
-                    <p class="text-[#49499c] text-sm font-normal leading-normal">{{ $post->created_at }}</p>
+                    <p class="text-[#49499c] text-sm font-normal leading-normal">{{ $post->created_human }}</p>
                 </div>
                 <p class="text-[#0d0d1c] text-sm font-normal leading-normal">{{$post->content}}</p>
             </div>
@@ -55,9 +56,11 @@
                     data-reply-user-handle="{{ $post->user->name }}"
                     data-reply-user-id="{{ $post->user->id }}"
                     data-reply-user-name="{{ $post->user->name }}"
+                    data-reply-user-icon="{{ $post->user->icon->path ?? asset('images/icons/default.jpg') }}"
                     data-reply-content="{{ $post->content }}"
                     data-reply-date="{{ $post->created_at }}"
-                    data-target-type="{{ $post->getMorphClass() }}">
+                    data-target-type="{{ $post->getMorphClass() }}"
+                    data-current-user-icon="{{ auth()->user()->icon->path ?? asset('images/icons/default.jpg') }}">
                 <div class="text-[#49499c]" data-icon="ChatCircleDots" data-size="24px" data-weight="regular">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
                         <path
