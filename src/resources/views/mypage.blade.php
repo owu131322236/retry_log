@@ -38,7 +38,7 @@
                     </div>
                 <div class="flex flex-wrap gap-5 w-full m-5">
                     @foreach($challenges as $challenge)
-                    <x-challenge-card.challenge-public-ongoing-card :challenge="$challenge" />
+                    <x-challenges.challenge-public-ongoing-card :challenge="$challenge" />
                     @endforeach
                 </div>
             </div>

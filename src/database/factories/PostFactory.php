@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Post;
+use App\Models\ContentType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -17,12 +17,15 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $contentTypes = ['success', 'fail'];
+        $contentType = ContentType::whereIn('name', $contentTypes)->inRandomOrder()->first();
+
         return [
             'user_id' => \App\Models\User::factory(),
             'challenge_log_id' =>\App\Models\ChallengeLog::factory(),
             'content' => $this->faker->paragraph(),
             'comments_count' => 0,
-            'post_type_id' => \App\Models\PostType::inRandomOrder()->first()->id,
+            'content_type_id' => $contentType?->id ?? ContentType::first()->id,
         ];
     }
 }

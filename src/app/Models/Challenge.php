@@ -46,10 +46,18 @@ class Challenge extends Model
     }
     public function challengeLogs()
     {
-        return $this->hasMany(ChallengeLog::class,'challenge_id');
+        return $this->hasMany(ChallengeLog::class, 'challenge_id');
     }
     public function reactions()
     {
         return $this->morphMany(Reaction::class, 'target');
     }
+    public function getDurationDaysAttribute()
+{
+    if (!$this->start_date || !$this->end_date) {
+        return null; // or return 0;
+    }
+
+    return $this->start_date->diffInDays($this->end_date);
+}
 }

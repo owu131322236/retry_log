@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         //固定データ
         $this->call([
             ChallengeStatusesSeeder::class,
-            PostTypesSeeder::class,
+            ContentTypesSeeder::class,
             ReactionTypesSeeder::class,
             ImageSeeder::class,
         ]);

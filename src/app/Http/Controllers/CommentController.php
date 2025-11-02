@@ -3,16 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Services\UserService;
+use App\Services\ReactionService;
+use App\Services\ChallengeProgressService;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $userService;
+    protected $challengeProgressService;
+    protected $reactionService;
+
+    public function __construct(UserService $userService, ChallengeProgressService $challengeProgressService, ReactionService $reactionService)
     {
-        //
+        $this->userService = $userService;
+        $this->challengeProgressService = $challengeProgressService;
+        $this->reactionService = $reactionService;
+    }
+    public function index(Comment $comment)
+    {
+        //PostとComment共通ページなので注意！
+        //profile-card用の処理
+        $currentUser = auth()->user();
+        $profileUserId = $comment->user_id;
+        $profileUser = $this->userService->getUserProfile($profileUserId);
+        $context = $this->userService->getProfileContext($currentUser, $profileUser);
+        $retryRate = round($this->challengeProgressService->getRetryRate($profileUserId)->get('retry_rate') * 100);
+        // コメント用の処理はなし
+        return view('post-show', ['target' => $comment, 'profileUser' => $profileUser, 'isOwnProfile' => $context['isOwnProfile'], 'isFollowing' => $context['isFollowing'],'retryRate' => $retryRate]);
     }
 
     /**
@@ -46,7 +64,21 @@ class CommentController extends Controller
         ]);
         return redirect()->back()->with('success', '返信を投稿しました！');
     }
+    public function toggleReaction(Request $request, ReactionService $reactionService)
+    {
+        $validated = $request->validate([
+            'target_type' => 'required|string',
+            'target_id' => 'required|integer',
+            'reaction_type_id' => 'required|integer|exists:reaction_types,id',
+        ]);
+        $reactionService->toggleReaction(
+            $validated['target_type'],
+            $validated['target_id'],
+            $validated['reaction_type_id']
+        );
 
+        return back();
+    }
     /**
      * Display the specified resource.
      */

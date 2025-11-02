@@ -3,51 +3,75 @@
         <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[50px] m-5"></div>
         <h2 class="text-2xl font-bold mt-5 mx-10">達成済みチャレンジ一覧</h2>
         <p class="text-gray-600 text-sm mx-10 mt-3">みんながこれまでの挑戦の軌跡を振り返りながら、自分の成長を確かめましょう。そして、まだ挑んでいないチャレンジにも、もう一度挑戦してみましょう。</p>
-        <div class="w-full flex justify-center items-center">
-            <input class="bg-white shadow-lg border form-input w-2/3 h-12 mx-5 mt-10 rounded-xl p-5 text-lg focus:outline-0 focus:ring-0 border-none bg-gray-100 focus:border-none placeholder:text-gray-600 text-gray-800" type="text" placeholder="チャレンジを検索">
-            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-xl mx-5 mt-10">検索</button>
-        </div>
-        <div class="flex justify-between items-center mt-10 mx-10">
-            <p class="text-gray-600">全100件</p>
-            <div class="relative inline-block text-left items-left min-w-[150px]">
-                <button id="sort-button" class="flex hover:bg-gray-300 rounded-lg p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25"><!-- Icon from Tabler Icons by Paweł Kuna - https://github.com/tabler/tabler-icons/blob/master/LICENSE -->
-                        <path fill="none" stroke="#7a7a7a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3v18m-7-3l-3 3l-3-3m3 3V3m13 3l-3-3l-3 3" />
-                    </svg>
-                    <p class="text-gray-600 text-sm">並び替え</p>
-                </button>
-                <div id="sort-menu" class="hidden absolute mt-2 flex flex-col bg-white rounded-lg p-3 transition-all min-w-full shadow-lg">
-                    <button class="w-fit text-left p-3 hover:bg-gray-300">新しい順</button>
-                    <button class="w-fit text-left p-3 hover:bg-gray-300">古い順</button>
+        <div x-data="{ search: '',filter: 'all'}">
+            <div class="w-full flex justify-center items-center">
+                <input x-model="search" type="text" placeholder="チャレンジを検索" class="bg-white shadow-lg border form-input w-2/3 h-12 mx-5 mt-10 rounded-xl p-5 text-lg focus:outline-0 focus:ring-0 border-none bg-gray-100 focus:border-none placeholder:text-gray-600 text-gray-800" type="text" placeholder="チャレンジを検索">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-xl mx-5 mt-10">検索</button>
+            </div>
+            <!-- <div class="flex justify-between items-center mt-10 mx-10">
+                <p class="text-gray-600">全100件</p>
+                <div class="relative inline-block text-left items-left min-w-[150px]">
+                    <button id="sort-button" class="flex hover:bg-gray-300 rounded-lg p-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25">
+                            <path fill="none" stroke="#7a7a7a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3v18m-7-3l-3 3l-3-3m3 3V3m13 3l-3-3l-3 3" />
+                        </svg>
+                        <p class="text-gray-600 text-sm">並び替え</p>
+                    </button>
+                    <div id="sort-menu" class="hidden absolute mt-2 flex flex-col bg-white rounded-lg p-3 transition-all min-w-full shadow-lg">
+                        <button class="w-fit text-left p-3 hover:bg-gray-300">新しい順</button>
+                        <button class="w-fit text-left p-3 hover:bg-gray-300">古い順</button>
+                    </div>
                 </div>
+            </div> -->
+            <div class="mx-10 flex gap-5 h-fit m-5">
+                <button
+                    @click="filter = filter === 'cleared' ? 'all' : 'cleared'"
+                    :class="filter === 'cleared'
+                        ? 'border-2 border-blue-600 bg-blue-50 text-blue-600'
+                        : 'border border-gray-300 text-blue-600'"
+                        class="flex items-center rounded-2xl space-x-2 p-5 my-3 transition">
+                    <div class="bg-blue-600 rounded-full h-3 w-3"></div>
+                    <span>クリアしたチャレンジ数:7件</span>
+                </button>
+                <button
+                    @click="filter = filter === 'paused' ? 'all' : 'paused'"
+                        :class="filter === 'paused'
+                        ? 'border-2 border-rose-500 bg-rose-50 text-rose-600'
+                        : 'border border-gray-300 text-rose-600'"
+                        class="flex items-center rounded-2xl space-x-2 p-5 my-3 transition">
+                    <div class="bg-red-600 rounded-full h-3 w-3"></div>
+                    <span>中断中チャレンジ:8件</span>
+                </button>
             </div>
-        </div>
-        <div class="mx-10 flex gap-5">
-            <div id="cleared-button" class="flex items-center border rounded-2xl space-x-2 p-5 my-3 ">
-                <div class="bg-blue-600 rounded-full h-3 w-3"></div>
-                <p class="text-sm text-blue-600 w-fit">クリアしたチャレンジ数:7件</p>
+            <div class="flex flex-wrap gap-10 m-10">
+                @foreach ($endedChallenges as $endedChallenge)
+                @php
+                $state = strtolower($endedChallenge->state->value);
+                $filterState = in_array($state, ['interrupted', 'failed']) ? 'paused' : $state;
+                $title = strtolower($endedChallenge->title);
+                @endphp
+
+                <div
+                    x-show="
+                '{{ $title }}'.includes(search.toLowerCase())
+                &&
+                (
+                    filter === 'all'
+                    || filter === '{{ $filterState }}'
+                )
+            "
+                    x-transition>
+                    <x-challenges.challenge-completed-card :endedchallenge="$endedChallenge" />
+                </div>
+                @endforeach
             </div>
-            <div id="paused-button" class="flex items-center border rounded-2xl space-x-2 p-5 my-3">
-                <div class="bg-red-600 rounded-full h-3 w-3"></div>
-                <p class="text-sm text-red-600 w-fit">中断中チャレンジ:8件</p>
-            </div>
-        </div>
-        <!-- <nav aria-label="Tabs" class="m-10 flex space-x-8">
-        <a aria-current="page" class="border-blue-600 text-text-light-primary dark:text-dark-primary whitespace-nowrap py-4 px-2 border-b-2 font-medium text-base" href="#">
-            クリアしたチャレンジ
-        </a>
-        <a class="border-transparent text-text-light-secondary hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-base" href="#">
-            中断中チャレンジ
-        </a>
-    </nav> -->
-        <div class="flex flex-wrap gap-5 m-10">
-            @for ($i=0; $i
+            <!-- @for ($i=0; $i
             < 10; $i++)
                 <div class="bg-white rounded-2xl shadow-lg min-w-[300px] h-fit p-6 hover:scale-105 transition-all">
                 <div class="flex justify-between items-center mb-4 opacity-60">
                     <div class="flex space-x-3 items-center ">
                         <div class="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><!-- Icon from Fluent Emoji High Contrast by Microsoft Corporation - https://github.com/microsoft/fluentui-emoji/blob/main/LICENSE -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                                 <path fill="#008cb4" d="M29.435 2.565a4 4 0 0 0-5.657 0l-.034.034a1 1 0 0 0-1.353 1.353l-8.516 8.516l-.146-.146a.5.5 0 0 0-.707 0l-.708.707a.5.5 0 0 0 0 .707l.147.146l-6.714 6.714a1.5 1.5 0 0 0 0 2.122L4.45 24.014a3 3 0 0 0-.7 1.098L2.269 29.2a.417.417 0 0 0 .534.534l4.087-1.486a3 3 0 0 0 1.096-.698l1.297-1.297a1.5 1.5 0 0 0 2.122 0l6.714-6.714l.08.08a.5.5 0 0 0 .706 0l.707-.708a.5.5 0 0 0 0-.707l-.079-.08l4.004-4.003a1 1 0 0 0 1.611 1.134l4.95-4.95a1 1 0 0 0 0-1.414l-.666-.666l.004-.003a4 4 0 0 0 0-5.657m-1.418 4.246L25.19 3.983l.003-.004a2 2 0 1 1 2.829 2.829zm-4.242-1.414l2.828 2.828l-8.485 8.486l-2.829-2.829zm-16.26 16.26l6.36-6.36l2.829 2.828l-6.36 6.36zm-.707 4.95a1 1 0 1 1-1.415-1.415a1 1 0 0 1 1.415 1.415" />
                             </svg>
                         </div>
@@ -82,7 +106,7 @@
                 </button>
 
             </div>
-            @endfor
+            @endfor -->
         </div>
     </div>
     <script>

@@ -1,10 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
+    //押してmodalを表示するまで
+        const headerOpenBtns = document.getElementsByClassName("header-open");
+        const headerModal = document.getElementById("header-modal");
+        const headerCloseBtn = document.getElementById("header-close");
+        for(let headerOpenBtn of headerOpenBtns){
+            headerOpenBtn.addEventListener("click", () => {
+                headerModal.classList.remove("hidden");
+            });
+        }
+        headerCloseBtn.addEventListener("click", () => {
+            headerModal.classList.add("hidden");
+    });
+    //押した後の挙動
     const postFormButtons = document.querySelectorAll(
         "#postFormSelector button"
     );
     const postFormSelector = document.querySelector("#postFormSelector");
     const postFormIndicator = document.querySelector("#postFormIndicator");
-    const postFormTypeInput = document.querySelector("#post_type");
+    const postFormTypeInput = document.querySelector("#content_type");
     const defaultButton = document.getElementById("success");
     function postFormModeIndicator(btn) {
         const offsetLeft = btn.offsetLeft;

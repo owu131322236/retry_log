@@ -12,11 +12,11 @@
 
         <div class="flex flex-1 justify-end gap-8">
             <div class="flex items-center gap-9">
-                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('timeline') }}">Timeline</a>
-                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('challenges') }}">Challenges</a>
-                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('progress',['user' => auth()->user()]) }}">Progress</a>
-                <a class="text-[#0d0d1c] text-base font-medium leading-normal rounded-lg  hover:bg-gray-300 p-3" href="{{ route('mypage',[auth()->user()])}}">Profile</a>
-                <button id="header-open" class="text-white text-sm font-bold leading-normal tracking-wider py-2 px-8 rounded-lg bg-blue-600 hover:scale-105 transition">＋New Post</button>
+                <a id="nav-timeline" class="text-[#0d0d1c] text-base leading-normal rounded-lg transition-all duration-300 hover:text-blue-600 hover:scale-110 hover:font-bold relative group p-3" href="{{ route('timeline') }}">Timeline</a>
+                <a id="nav-challenges" class=" text-[#0d0d1c] text-base leading-normal rounded-lg  transition-all duration-300 hover:text-blue-600 hover:scale-110 hover:font-bold relative group p-3" href="{{ route('challenges') }}">Challenges</a>
+                <a id="nav-progress" class=" text-[#0d0d1c] text-base leading-normal rounded-lg  transition-all duration-300 hover:text-blue-600 hover:scale-110 hover:font-bold relative group p-3" href="{{ route('progress',['user' => auth()->user()]) }}">Progress</a>
+                <a id="nav-profile" class=" text-[#0d0d1c] text-base leading-normal rounded-lg  transition-all duration-300 hover:text-blue-600 hover:scale-110 hover:font-bold relative group p-3" href="{{ route('mypage',[auth()->user()])}}">Profile</a>
+                <button id="header-open" class="header-open text-white text-sm font-bold leading-normal tracking-wider py-2 px-8 rounded-lg bg-blue-600 hover:scale-105 transition">＋New Post</button>
                 <x-posts.post-create-form />
 
             </div>
@@ -63,17 +63,6 @@
         </div>
     </div>
 
-    <script>
-        const headerOpenBtn = document.getElementById("header-open");
-        const headerModal = document.getElementById("header-modal");
-        const headerCloseBtn = document.getElementById("header-close");
-        headerOpenBtn.addEventListener("click", () => {
-            headerModal.classList.remove("hidden");
-        });
-        headerCloseBtn.addEventListener("click", () => {
-            headerModal.classList.add("hidden");
-        });
-    </script>
 
     <!-- </div>
     </div> -->
