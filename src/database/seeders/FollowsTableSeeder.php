@@ -18,7 +18,7 @@ class FollowsTableSeeder extends Seeder
 
         foreach($users as $user){
             $followees = $users->where('id', '!=', $user->id)
-            ->random(rand(2,20))
+            ->random(rand(2,4))
             ->pluck('id');
             foreach($followees as $follweeId){
                 DB::table('follows')->updateOrInsert(
