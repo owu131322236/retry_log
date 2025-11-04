@@ -44,7 +44,7 @@
             <div class="bg-gradient-to-r from-pink-600 from- via-rose-600 via- to-red-500 to- rounded-full h-2 w-[100px] mb-5"></div>
             <p class="text-sm text-gray-500 m-5">過去に達成したチャレンジがここに表示されます。一度失敗しても、再挑戦して成功を収めましょう！</p>
         </div>
-        <a class="text-medium font-bold text-blue-600 hover:underline transition duration-300" href="{{ route('challenge-all') }}">全ての達成済みチャレンジ→</a>
+        <a class="text-medium font-bold text-blue-600 hover:underline transition-all duration-300 ease-out transform hover:translate-x-2" href="{{ route('challenge-all') }}">全ての達成済みチャレンジ→</a>
     </div>
     <div class="overflow-x-auto">
         <div class="flex space-x-8 px-10 py-5">

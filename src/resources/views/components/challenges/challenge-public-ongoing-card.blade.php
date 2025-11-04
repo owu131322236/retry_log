@@ -14,7 +14,7 @@
     <div class="mb-4">
         <div class="flex justify-between text-gray-600 mb-1">
             <span>進捗</span>
-            <span>0/30日</span>
+            <span>{{ round(count($challenge->challengeLogs)) }}日/{{round($challenge->duration_days)}}日</span>
         </div>
         @php
         $rate = $challenge->achievement_rate ?? 0;
@@ -24,11 +24,14 @@
         </div>
     </div>
     <div class="flex items-center text-sm text-gray-500 space-x-4 mb-6">
+        @php
+        $latestLog = $challenge->challengeLogs->max('logged_at');
+        @endphp
         <div class="flex items-center">
-            <span>現在: {{optional($challenge->current_steak)->format('m/d')}}日</span>
+            <span>更新日: {{optional($latestLog)->format('m/d')}}</span>
         </div>
         <div class="flex items-center">
-            <span>最高: {{optional($challenge->max_streak)->format('m/d')}}日</span>
+            <span>最高: {{$challenge->max_streak}}日</span>
         </div>
         <div class="flex items-center">
             <span>開始: {{optional($challenge->start_date)->format('Y/m/d')}}</span>
