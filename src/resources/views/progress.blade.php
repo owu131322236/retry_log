@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 @endforeach
-                <a href="{{ route('challenge-all') }}" class="flex justify-center text-blue-600 font-bold w-full p-5 hover:underline">全ての達成済みチャレンジ →</a>
+                <a href="{{ route('challenge-all') }}" class="flex justify-center text-blue-600 font-bold w-full p-5 hover:underline transition-all duration-300 easy-out transform hover:translate-x-1">全ての達成済みチャレンジ →</a>
             </div>
             <!-- 右側のメインコンテンツ -->
             <div class="layout-content-container flex flex-col w-[60%] flex-1 mx-10">

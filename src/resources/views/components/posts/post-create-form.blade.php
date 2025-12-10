@@ -20,7 +20,7 @@
             </div>
 
             <div class="flex space-x-5 w-full h-full m-5">
-                <img src="{{ auth()->user()->icon->path }}" alt="User Icon"
+                <img src="{{$post->user->icon->path ?? asset('images/icons/default.jpg')}}" alt="User Icon"
                     class="w-10 h-10 rounded-full border object-cover">
                 <textarea name="content"
                     rows="10" cols="50"
