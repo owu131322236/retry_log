@@ -2,8 +2,7 @@
 習慣化をサポートするSNSアプリケーションです。
 挑戦したい目標を設定して仲間と共有をしたり、タイムラインで仲間と交流ができます。
 RetryLogは習慣化や新しいことに挑戦する人が、失敗しても安心して再挑戦できる環境を作りたいという思いから作りました。
-<img width="982" height="645" alt="Image" src="https://github.com/user-attachments/assets/a8b6c6d1-d570-4742-bdbf-50186a26c18d" />
-
+<img width="1470" height="816" alt="Image" src="https://github.com/user-attachments/assets/23fa3cbd-d54a-4e75-a4ea-32cfbcc58bbe" />
 <!-- 新しいことに挑戦する人や、習慣を続けたい人が、失敗しても安心して再挑戦できる環境を提供します。
 
 # 着想
