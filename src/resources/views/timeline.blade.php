@@ -58,12 +58,12 @@
                 <div class="flex w-full px-4 py-5 justify-center">
                     <div id="postSelector" class="relative flex h-10 w-3/5 w-full items-center justify-center rounded-xl bg-gray-200 p-1">
                         <div id="postIndicator" class="absolute top-1/2 left-2 h-4/5 w-1/2 rounded-xl bg-blue-600 transition-all duration-300 -translate-y-1/2"></div>
-                        <button onclick="loadPosts('success')" data-target="moon" id="moon" class="relative w-2/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">moon</button>
-                        <button onclick="loadPosts('fail')" data-target="sun" id="sun" class="relative w-1/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">sun</button>
+                        <button onclick="loadPosts('fail')" data-target="moon" id="moon" class="relative w-2/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">moon</button>
+                        <button onclick="loadPosts('success')" data-target="sun" id="sun" class="relative w-1/3 z-10 px-6 py-2 rounded-full text-center text-gray-900 text-lg">sun</button>
                     </div>
                 </div>
                 <p class="text-sm text-gray-500 text-center m-1">「Moon」モードは穏やかで静かな投稿を、「Sun」モードは元気で前向きな投稿を表示します。</p>
-                <div id="posts" class="flex flex-col m-5">
+                <div id="posts" class="flex flex-col m-5 w-full">
                     @include('partials.timeline-posts', ['timeline' => $timeline])
                 </div>
             </div>
@@ -78,16 +78,6 @@
             if (typeof window.initFormEvents === 'function') window.initFormEvents();
             if (typeof window.initReactionsEvents === 'function') window.initReactionsEvents();
         }
-        // const openBtn = document.getElementById("open");
-        // const modal = document.getElementById("modal");
-        // const closeBtn = document.getElementById("close");
-        // const addHabitBtn = document.getElementById("addHabit");
-        // openBtn.addEventListener("click", () => {
-        //     modal.classList.remove("hidden");
-        // });
-        // closeBtn.addEventListener("click", () => {
-        //     modal.classList.add("hidden");
-        // });
         //背景の変更
         function changePageBackGround(target) {
             const bg = document.getElementsByClassName('page-bg')[0];
@@ -123,6 +113,7 @@
             changePageBackGround(target);
         }
         postModeIndicator(postButtons[0]);
+        loadPosts('fail');
         postButtons[0].classList.add('text-white', 'font-bold');
         postButtons.forEach(button => {
             button.addEventListener('click', async () => {

@@ -50,7 +50,7 @@ class ChallengeService
     //Challengeの達成率を計算するメソッド
     public function calculateAcheivementRate(Challenge $challenge)
     {
-        $today = Carbon::today();
+        $today = Carbon::today()->endOfDay();
         $start = $challenge->start_date;
         $logs = ChallengeLog::with('challengeStatus')
             ->where('challenge_id', $challenge->id)

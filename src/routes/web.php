@@ -58,3 +58,6 @@ require __DIR__.'/auth.php';
 Route::get('/post-create', function () {
     return view('post-create');
 })->name('post-create');
+Route::get('/', function () {
+    return view('guest/landing');
+})->name('guest.landing');

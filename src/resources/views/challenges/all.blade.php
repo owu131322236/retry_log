@@ -47,7 +47,7 @@
                 @foreach ($endedChallenges as $endedChallenge)
                 @php
                 $state = strtolower($endedChallenge->state->value);
-                $filterState = in_array($state, ['interrupted', 'failed']) ? 'paused' : $state;
+                $filterState = in_array($state, ['interrupted', 'failed']) ? 'paused' : ($state === 'completed' ? 'cleared' : $state);
                 $title = strtolower($endedChallenge->title);
                 @endphp
 

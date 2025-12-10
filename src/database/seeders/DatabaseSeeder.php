@@ -14,29 +14,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        //固定データ
+        //共通部分(状態テーブルなど)
         $this->call([
             ChallengeStatusesSeeder::class,
             ContentTypesSeeder::class,
             ReactionTypesSeeder::class,
             ImageSeeder::class,
         ]);
-        //ダミーデータ
-        $this->call([
-            UsersTableSeeder::class,
-            PostsTableSeeder::class,
-            CommentsTableSeeder::class,
-            ReactionsTableSeeder::class,
-            FollowsTableSeeder::class,
-            ChallengesTableSeeder::class,
-            NotificationsTableSeeder::class,
-        ]);
+        if (app()->environment('local')) {
+            $this->call(LocalSeeder::class);
+        }
+        if (app()->environment('production')) {
+            $this->call(ProductionDemoSeeder::class);
+        }
     }
 }

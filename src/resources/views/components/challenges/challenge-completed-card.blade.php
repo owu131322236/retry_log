@@ -1,6 +1,9 @@
 @props(['endedchallenge'])
+@php
+use App\Enums\ChallengeState;
+@endphp
 <div class="bg-white rounded-2xl shadow-lg w-[350px] h-fit p-6 flex-shrink-0 hover:scale-105 transition-all">
-    @if ($endedchallenge->state=='completed')
+    @if ($endedchallenge->state==ChallengeState::COMPLETED)
     <div class="flex justify-between items-center mb-4">
         @else
         <div class="flex justify-between items-center mb-4 opacity-60">
@@ -13,24 +16,27 @@
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 w-4/5">{{$endedchallenge->title}}</h3>
             </div>
-            @if($endedchallenge->state=='completed')
+            @if($endedchallenge->state==ChallengeState::COMPLETED)
             <span class="bg-blue-200 text-blue-800 text-sm text-center font-medium h-fit w-fit px-3 py-1 rounded-full">達成済み</span>
             @else
             <span class="bg-red-200 text-red-800 text-sm text-center font-medium h-fit w-fit px-3 py-1 rounded-full">中断</span>
             @endif
         </div>
+        @php
+        $successCount = $endedchallenge->challengeLogs->filter(fn($log) => $log->challengeStatus?->name === 'success')->count();
+        @endphp
         <div class="mb-4 opacity-60">
             <div class="flex justify-between text-gray-600 mb-1">
                 <span>進捗</span>
-                <span>{{ round(count($endedchallenge->challengeLogs)) }}日/{{round($endedchallenge->duration_days)}}日</span>
+                <span>{{ round($successCount) }}日/{{round($endedchallenge->duration_days)}}日</span>
             </div>
-            @if($endedchallenge->state=='completed')
+            @if($endedchallenge->state==ChallengeState::COMPLETED)
             <div class="w-full bg-gray-200 rounded-full h-2.5">
-                <div class="bg-teal-500 h-2.5 rounded-full" style="width: 100%"></div>
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 100%"></div>
             </div>
             @else
             @php
-            $rate = $endedchallenge->achievement_rate ?? 0;
+                $rate = round(min($endedchallenge->achievement_rate, 100) , 1);
             @endphp
             <div class="w-full bg-gray-200 rounded-full h-2.5">
                 <div class="bg-rose-500 h-2.5 rounded-full" style="width: {{$rate}}%"></div>
@@ -60,8 +66,8 @@
             @endif
 
         </div>
-        @if ($endedchallenge->state=='completed')
-        <button class="w-full bg-gray-300 text-white font-bold py-3 px-4 rounded-lg hover:bg-teal-600 transition duration-300 flex items-center justify-center">
+        @if ($endedchallenge->state==ChallengeState::COMPLETED)
+        <button class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-teal-600 transition duration-300 flex items-center justify-center">
             達成済み
         </button>
         @else
