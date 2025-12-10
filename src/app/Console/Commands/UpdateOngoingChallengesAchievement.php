@@ -31,13 +31,14 @@ class UpdateOngoingChallengesAchievement extends Command
     }
     public function handle()
     {
-        $today = Carbon::today();
+        $today = Carbon::today()->endOfDay();
         $challenges = Challenge::whereIn('state', ['in_progress', 'not_started'])->get();
 
         foreach ($challenges as $challenge) {
             $rate = $this->challengeService->calculateAcheivementRate($challenge);
-            $challenge->achievement_rate = round($rate * 100, 2);
+            $challenge->achievement_rate = $rate*100;
             $challenge->save();
+            dump("Achievement Rate: {$challenge->achievement_rate}%");
         }
 
         $this->info('Achievement rates updated for ongoing challenges.');

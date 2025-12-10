@@ -44,9 +44,12 @@
 
     </div>
     <div class="mb-4">
+        @php
+        $successCount = $challenge->challengeLogs->filter(fn($log) => $log->challengeStatus?->name === 'success')->count();
+        @endphp
         <div class="flex justify-between text-gray-600 mb-1">
             <span>進捗</span>
-            <span>{{ round(count($challenge->challengeLogs)) }}日/{{round($challenge->duration_days)}}日</span>
+            <span>{{ round($successCount) }}日/{{round($challenge->duration_days)}}日</span>
         </div>
         @php
         $rate = $challenge->achievement_rate ?? 0;
