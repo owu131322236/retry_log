@@ -12,7 +12,7 @@ RetryLog は、そんな課題を解決するために作られました。
 誰もが挑戦できる居場所をオンライン上に作ることを目指しています。 -->
 
 
-<!-- ![ヘッダー画像](/docs/img/header/header.png) -->
+![ヘッダー画像](/docs/img/header/header.png)
 
 <br />
 
